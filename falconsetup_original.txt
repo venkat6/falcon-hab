@@ -1,0 +1,9 @@
+PayloadSetup_bMassVal=1200
+PayloadSetup_weightVal=5
+PayloadSetup_excessLiftVal=4
+PayloadSetup_dragCoefVal=1.3
+PayloadSetup_callsignVal=KB0MGQ
+PayloadSetup_flightNumberVal=LX-120A
+FlightCtrSetup_fcLatVal=42.0276
+FlightCtrSetup_fcLonVal=-93.6532
+FlightCtrSetup_fcAltVal=300.0
