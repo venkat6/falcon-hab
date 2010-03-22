@@ -1,6 +1,8 @@
 This document will serve as our coordination for who is working on what for FALCON. It should also serve as a basis for sharing ideas and keeping track of our current plans. It is a very rough document at this point. Feel free to modify it as you see fit.
+Also check the ToDo page on the Google Code project page Wiki.
 
 TODO:
 Task/Assigned To/Completed
 Share FALCON source code/Joseph/3-11-2010
+Commit Project to gCode svn repo/Ethan/3-22-2010
 Put brainstorming ideas into this document/Everyone/-
