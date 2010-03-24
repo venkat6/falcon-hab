@@ -2,7 +2,6 @@ This document will serve as our coordination for who is working on what for FALC
 Also check the ToDo page on the Google Code project page Wiki.
 
 TODO:
-Task/Assigned To/Completed
-Share FALCON source code/Joseph/3-11-2010
-Commit Project to gCode svn repo/Ethan/3-22-2010
-Put brainstorming ideas into this document/Everyone/-
+Completed	Person	Task
+3-11-2010	Joseph	Share FALCON source code
+3-22-2010	Ethan	Commit project to gCode repository
