@@ -65,6 +65,7 @@ public class FalconMainView extends FrameView implements CallsignGPSListener, Pa
     private String webPostingAddress = "http://www.sscl.iastate.edu/habet/tracking_posting_portal.php";
     private Position burstPos_;
     private final int digShown_ = 5;
+    private boolean azelControlEnabled = false;
 
     public static void initialize(SingleFrameApplication app){
         if(fmv_==null)fmv_ = new FalconMainView(app);
@@ -544,6 +545,9 @@ public class FalconMainView extends FrameView implements CallsignGPSListener, Pa
         Double[] dArr = AzelCalc.calc(fcSetupBox.getFcPos(), p);
         String az = ""+(Math.floor(dArr[0]*1000000.0)/1000000.0);
         String el = ""+(Math.floor(dArr[1]*1000000.0)/1000000.0);
+        if(azelControlEnabled) {
+            eharstad.sscl.falcon.RotorControl.setAzEl(Math.floor(dArr[0]*1000000.0)/1000000.0, Math.floor(dArr[1]*1000000.0)/1000000.0);
+        }
         azelAzText.setText(az);
         azelElText.setText(el);
     }
@@ -785,6 +789,7 @@ public class FalconMainView extends FrameView implements CallsignGPSListener, Pa
         azelElLabel = new javax.swing.JLabel();
         azelElText = new javax.swing.JTextField();
         jSeparator7 = new javax.swing.JSeparator();
+        azelControlCheckbox = new javax.swing.JCheckBox();
         logScrollPane = new javax.swing.JScrollPane();
         logPanel = new javax.swing.JTextArea();
         mapPanel = new javax.swing.JPanel();
@@ -1432,6 +1437,15 @@ public class FalconMainView extends FrameView implements CallsignGPSListener, Pa
 
         jSeparator7.setName("jSeparator7"); // NOI18N
 
+        azelControlCheckbox.setText(resourceMap.getString("azelControlCheckbox.text")); // NOI18N
+        azelControlCheckbox.setToolTipText(resourceMap.getString("azelControlCheckbox.toolTipText")); // NOI18N
+        azelControlCheckbox.setName("azelControlCheckbox"); // NOI18N
+        azelControlCheckbox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                azelControlCheckboxItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout azelPanelLayout = new javax.swing.GroupLayout(azelPanel);
         azelPanel.setLayout(azelPanelLayout);
         azelPanelLayout.setHorizontalGroup(
@@ -1448,7 +1462,8 @@ public class FalconMainView extends FrameView implements CallsignGPSListener, Pa
                         .addComponent(azelElLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(azelElText, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE))
-                    .addComponent(azelTitleLabel))
+                    .addComponent(azelTitleLabel)
+                    .addComponent(azelControlCheckbox, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         azelPanelLayout.setVerticalGroup(
@@ -1466,7 +1481,9 @@ public class FalconMainView extends FrameView implements CallsignGPSListener, Pa
                     .addComponent(azelElText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(438, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(azelControlCheckbox)
+                .addContainerGap(413, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab(resourceMap.getString("azelPanel.TabConstraints.tabTitle"), azelPanel); // NOI18N
@@ -1520,6 +1537,10 @@ public class FalconMainView extends FrameView implements CallsignGPSListener, Pa
         //TODO: figure out how to not call reload too many times
     }//GEN-LAST:event_mapPanelResized
 
+    private void azelControlCheckboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_azelControlCheckboxItemStateChanged
+        azelControlEnabled = !azelControlEnabled;
+    }//GEN-LAST:event_azelControlCheckboxItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem agwpeConnectMI;
@@ -1531,6 +1552,7 @@ public class FalconMainView extends FrameView implements CallsignGPSListener, Pa
     private javax.swing.JMenuItem agwpeToggleMonMI;
     private javax.swing.JLabel azelAzLabel;
     private javax.swing.JTextField azelAzText;
+    private javax.swing.JCheckBox azelControlCheckbox;
     private javax.swing.JLabel azelElLabel;
     private javax.swing.JTextField azelElText;
     private javax.swing.JPanel azelPanel;
