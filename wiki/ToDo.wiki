@@ -3,9 +3,9 @@
 These are the things that need to be done. Please add/edit as required.  Discuss implementation details or brainstorm new ideas below.
 
 || *Person* || *Date Added* || *Date Completed* || *Task* || *Comments* ||
-|| Ethan || 3-18-2010 || 3-22-2010 || Commit project to repository ||
-|| Ethan || 3-22-2010 || -- || Integrate automatic rotor control || Control code complete ||
-|| Ethan || 3-22-2010 || -- || Projected landing site sent to recovery via APRS ||
+|| Ethan || 03-18-2010 || 03-22-2010 || Commit project to repository ||
+|| Ethan || 03-22-2010 || 03-25-2010 || Integrate automatic rotor control || Control code complete ||
+|| Ethan || 03-22-2010 || -- || Projected landing site sent to recovery via APRS ||
 || -- || -- || -- || Burst Detection || Need to identify parameters that indicate burst ||
 
 ----
