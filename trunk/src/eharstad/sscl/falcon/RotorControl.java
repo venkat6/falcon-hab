@@ -7,17 +7,22 @@ import com.google.code.jdde.event.DisconnectEvent.ClientDisconnectEvent;
 import com.google.code.jdde.misc.DdeException;
 
 /**
- * A class to control a az/el rotor through HRDRotator
- * Uses the HRDRotate DDE Server
+ * A class to control an azimuth/elevation rotator
+ * Uses the HRD Rotator DDE Server for control
+ * Connects via the jDDE library available at
+ * http://code.google.com/p/jdde/
  * 
  * @author Ethan Harstad
  */
 public class RotorControl {
 	
+	private static boolean DEBUG = false;
+	
 	// Connection definition
 	private static String HRDRotatorDDEServer = "HRDRotator";
 	private static String HRDRotatorDDETopic  = "Position";
 	private static String HRDRotatorDDEItem   = "PositionData";
+	// How much to pause between commands
 	private static int	  CommandDelay		  = 1000;
 	
 	static DdeClient client;
@@ -29,7 +34,7 @@ public class RotorControl {
 	 * interrupted.  Call this function often to ensure the rotor is near the intended direction.
 	 * @param az
 	 * @param el
-	 * @return
+	 * @return True if successful
 	 */
 	public static boolean setAzEl(double az, double el) {
 		boolean a = setAz(az);
@@ -42,15 +47,31 @@ public class RotorControl {
 		return(a || b);
 	}
 	
+	/**
+	 * Set the rotor to the desired azimuth
+	 * @param az
+	 * @return True if successful
+	 */
 	public static boolean setAz(double az) {
 		return ddeCommand("SET-AZ:" + az);
 	}
 	
+	/**
+	 * Set the rotor to the desired elevation
+	 * @param el
+	 * @return True if successful
+	 */
 	public static boolean setEl(double el) {
 		return ddeCommand("SET-EL:" + el);
 	}
-	
+
+	/**
+	 * Send the given command to the DDE server defined by the static variables above
+	 * @param cmd
+	 * @return True if successful
+	 */
 	private static boolean ddeCommand(String cmd) {
+		// Load the jDDE library
 		try {
 			System.loadLibrary("jDDE");
 		} catch(UnsatisfiedLinkError e) {
@@ -58,21 +79,22 @@ public class RotorControl {
 			return false;
 		}
 		
+		// Create the client connection
 		client = new DdeClient();
 		conv = null;
 		try {
 			conv = client.connect(HRDRotatorDDEServer, HRDRotatorDDETopic);
-			System.out.println("DDE Conversation: " + conv);
+			if(DEBUG) System.out.println("DDE Conversation: " + conv);
 			
 			conv.setDisconnectListener(new ClientDisconnectListener() {
 				public void onDisconnect(ClientDisconnectEvent e) {
 					System.err.println("DDE Disconnect!");
 				}
 			});
-			System.out.println("DDE Execute: " + cmd);
+			
 			try {
 				conv.pokeAsync(HRDRotatorDDEItem, cmd.getBytes(), null);
-				System.out.println("DDE Send: " + cmd);
+				if(DEBUG) System.out.println("DDE Send: " + cmd);
 				conv.disconnect();
 				client.uninitialize();
 			} catch(Exception e) {
