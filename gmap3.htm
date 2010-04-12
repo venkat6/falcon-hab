@@ -140,6 +140,7 @@ rIcon.infoShadowAnchor = new GPoint(59, 0);
 var cpoint = new GLatLng(42.026908, -93.65324);
 
 var map = new GMap2(document.getElementById("map"));
+map.enableScrollWheelZoom();
 map.setCenter(new GLatLng(42.027611, -93.652995), 9);
 
 var balloonline = new GPolyline([cpoint], "#151B8D", 3, .6);
@@ -222,6 +223,7 @@ GEvent.addListener(pland, "click",
 
 
     map.addControl(new GLargeMapControl());
+    map.addControl(new GMapTypeControl());
 
     //]]>
     </script>

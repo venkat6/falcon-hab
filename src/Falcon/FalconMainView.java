@@ -401,6 +401,9 @@ public class FalconMainView extends FrameView implements CallsignGPSListener, Pa
 
     }
 
+    //FIXME This currently looks through history for max altitude each time it is called
+    //		Only need to do it once after burst is detected.  Maybe remove call from GPSEvent method and
+    //		add a listener for the menu item?  Automatic detection should also trigger the box to be checked
     public void updateBurst(){
         //must have at least two 500ft drops after two rises
 
