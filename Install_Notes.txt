@@ -1,3 +1,0 @@
-Need to copy the files (in the following directory structure) for XULRunner:
-./native/win32/xulrunner/*.*
-
