@@ -1,18 +1,24 @@
 package falcon;
 
 import java.awt.Dimension;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-public class FalconApp extends JFrame{
+import falcon.components.windows.TrackingFrame;
+
+public class FalconApp extends JFrame {
 	
 	public final static String VERSION = "Pre-Alpha Branch";
 	
 	static JFrame mainWindow;
+	static TrackingFrame trackingWindow;
 	static JMenuBar cMenuBar;
+	static JCheckBoxMenuItem cWindowTracking;
 
 	/**
 	 * @param args
@@ -35,6 +41,7 @@ public class FalconApp extends JFrame{
 		
 		//TODO Add components
 		mainWindow.setJMenuBar(createMenuBar());
+		trackingWindow = new TrackingFrame();
 		
 		mainWindow.setVisible(true);
 	}
@@ -51,7 +58,16 @@ public class FalconApp extends JFrame{
 		cMenuBar.add(cWindowMenu);
 		JCheckBoxMenuItem cWindowRadio = new JCheckBoxMenuItem("Radio");
 		cWindowMenu.add(cWindowRadio);
-		JCheckBoxMenuItem cWindowTracking = new JCheckBoxMenuItem("Tracking");
+		cWindowTracking = new JCheckBoxMenuItem("Tracking");
+		cWindowTracking.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					trackingWindow.setVisible(true);
+				} else {
+					trackingWindow.setVisible(false);
+				}
+			}
+		});
 		cWindowMenu.add(cWindowTracking);
 		JCheckBoxMenuItem cWindowPrediction = new JCheckBoxMenuItem("Prediction");
 		cWindowMenu.add(cWindowPrediction);
@@ -70,6 +86,12 @@ public class FalconApp extends JFrame{
 		cHelpMenu.add(cHelpAbout);
 		
 		return cMenuBar;
+	}
+	
+	public static void windowClosing(String name) {
+		if(name.equals("Tracking")) {
+			cWindowTracking.setState(false);
+		}
 	}
 
 }
