@@ -27,7 +27,7 @@ public class StatusIndicator extends JButton implements ActionListener {
 	private boolean mAlert = false;
 	private boolean mAlertMarginal = false;
 	private boolean mAlertAbnormal = true;
-	private static boolean mFlash;
+	private static volatile boolean mFlash;
 	private static Timer timer;
 	
 	public static final int STATUS_NOMINAL = 0;

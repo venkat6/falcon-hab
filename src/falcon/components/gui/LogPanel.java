@@ -1,6 +1,7 @@
 package falcon.components.gui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
@@ -34,8 +35,9 @@ public class LogPanel extends JScrollPane {
 		StyleConstants.setForeground(ALERT, Color.RED);
 	}
 	
-	public LogPanel() {
+	public LogPanel(Dimension size) {
 		super();
+		setPreferredSize(size);
 		setViewportView(textPane);
 		textPane.setEditable(false);
 		setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
