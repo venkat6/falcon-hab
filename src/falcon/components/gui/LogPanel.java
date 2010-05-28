@@ -2,7 +2,6 @@ package falcon.components.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
@@ -10,15 +9,22 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+/**
+ * A component that allows formatted logging of important events.  Orders events with newest events at the bottom.
+ * Displays standard messages, warnings, alerts and system events differently.
+ * @author Ethan Harstad
+ *
+ */
 public class LogPanel extends JScrollPane {
 	
 	private JTextPane textPane = new JTextPane();
 	
+	// Create the different styles
 	private static SimpleAttributeSet PLAIN = new SimpleAttributeSet();
 	private static SimpleAttributeSet EVENT = new SimpleAttributeSet();
 	private static SimpleAttributeSet WARNING = new SimpleAttributeSet();
 	private static SimpleAttributeSet ALERT = new SimpleAttributeSet();
-	
+	private static SimpleAttributeSet DEBUG = new SimpleAttributeSet();
 	static {
 		StyleConstants.setFontFamily(PLAIN, "Monospaced");
 		StyleConstants.setFontSize(PLAIN, 10);
@@ -33,8 +39,16 @@ public class LogPanel extends JScrollPane {
 		StyleConstants.setFontSize(ALERT, 10);
 		StyleConstants.setBold(ALERT, true);
 		StyleConstants.setForeground(ALERT, Color.RED);
+		StyleConstants.setFontFamily(DEBUG, "Monospaced");
+		StyleConstants.setFontSize(DEBUG, 10);
+		StyleConstants.setForeground(DEBUG, Color.BLUE);
+		StyleConstants.setItalic(DEBUG, true);
 	}
 	
+	/**
+	 * Creates a LogPanel instance with the given preferred size.
+	 * @param size
+	 */
 	public LogPanel(Dimension size) {
 		super();
 		setPreferredSize(size);
@@ -44,20 +58,44 @@ public class LogPanel extends JScrollPane {
 		setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	}
 	
+	/**
+	 * Add a standard message to the log
+	 * @param message
+	 */
 	public void addMessage(String message) {
 		addString(message);
 	}
 	
+	/**
+	 * Add an event to the log
+	 * @param message
+	 */
 	public void addEvent(String message) {
 		addString(message, EVENT);
 	}
 	
+	/**
+	 * Add a warning to the log
+	 * @param message
+	 */
 	public void addWarning(String message) {
 		addString(message, WARNING);
 	}
 	
+	/**
+	 * Add an alert to the log
+	 * @param message
+	 */
 	public void addAlert(String message) {
 		addString(message, ALERT);
+	}
+	
+	/**
+	 * Add a debug message to the log
+	 * @param message
+	 */
+	public void addDebug(String message) {
+		addString(message, DEBUG);
 	}
 	
 	private void addString(String message) {
@@ -66,7 +104,7 @@ public class LogPanel extends JScrollPane {
 			if(doc.getLength() > 0) message = "\n" + message;
 			doc.insertString(doc.getLength(), message, PLAIN);
 		} catch (BadLocationException e) {
-			//TODO do something with exception
+			// Shouldn't happen
 		}
 	}
 	
@@ -76,7 +114,7 @@ public class LogPanel extends JScrollPane {
 			if(doc.getLength() > 0) message = "\n" + message;
 			doc.insertString(doc.getLength(), message, a);
 		} catch (BadLocationException e) {
-			//TODO do something with exception
+			// Shouldn't happen
 		}
 	}
 

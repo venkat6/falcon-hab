@@ -1,7 +1,5 @@
 package falcon.components.gui;
 
-//TODO full test and document
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -18,7 +16,7 @@ import javax.swing.Timer;
  * @author Ethan Harstad
  *
  */
-public class StatusIndicator extends JButton implements ActionListener {
+public class StatusIndicator extends JButton {
 	
 	private String mNominalLabel = "";
 	private String mMarginalLabel = "";
@@ -30,11 +28,17 @@ public class StatusIndicator extends JButton implements ActionListener {
 	private static volatile boolean mFlash;
 	private static Timer timer;
 	
+	// Status Constants
 	public static final int STATUS_NOMINAL = 0;
 	public static final int STATUS_MARGINAL = 1;
 	public static final int STATUS_ABNORMAL = 2;
 	public static final int STATUS_DISABLED = -1;
 	
+	/**
+	 * Default constructor.  Creates an indicator with no display text.
+	 * The new indicator is in the disabled state upon creation.
+	 * The indicator will flash on Abnormal status only.
+	 */
 	public StatusIndicator() {
 		super();
 		setState(STATUS_DISABLED);
@@ -44,9 +48,20 @@ public class StatusIndicator extends JButton implements ActionListener {
 				repaint();
 			}});
 		timer.start();
-		addActionListener(this);
+		addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearAlert();
+				repaint();
+			}
+		});
 	}
 
+	/**
+	 * Creates an indicator with the same label for all states.
+	 * The new indicator is in the disabled state upon creation.
+	 * The indicator will flash on Abnormal status only.
+	 * @param label
+	 */
 	public StatusIndicator(String label) {
 		this();
 		mNominalLabel = label;
@@ -54,6 +69,16 @@ public class StatusIndicator extends JButton implements ActionListener {
 		mAbnormalLabel = label;
 	}
 	
+	/**
+	 * Creates an indicator with the given labels for each state.
+	 * Also allows the flash functionality to be set for marginal and abnormal states.
+	 * The new indicator is in the disabled state upon creation.
+	 * @param NominalLabel
+	 * @param MarginalLabel
+	 * @param AbnormalLabel
+	 * @param AlertMarginal
+	 * @param AlertAbnormal
+	 */
 	public StatusIndicator(String NominalLabel, String MarginalLabel, String AbnormalLabel, boolean AlertMarginal, boolean AlertAbnormal) {
 		this();
 		mNominalLabel = NominalLabel;
@@ -63,6 +88,15 @@ public class StatusIndicator extends JButton implements ActionListener {
 		mAlertAbnormal = AlertAbnormal;
 	}
 	
+	/**
+	 * Sets the current state of the indicator.
+	 * The given state should be one of:
+	 * 		StatusIndicator.STATUS_NOMINAL
+	 * 		StatusIndicator.STATUS_MARGINAL
+	 * 		StatusIndicator.STATUS_ABNORMAL
+	 * 		StatusIndicator.STATUS_DISABLED
+	 * @param state
+	 */
 	public void setState(int state) {
 		if(mState == state) return;
 		mState = state;
@@ -87,14 +121,24 @@ public class StatusIndicator extends JButton implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Puts the indicator into an alerted state (flashing).
+	 */
 	public void setAlert() {
 		mAlert = true;
 	}
 	
+	/**
+	 * Clears the indicators alerted status.
+	 */
 	public void clearAlert() {
 		mAlert = false;
 	}
 	
+	/**
+	 * Repaints the Status Indicator.  Should not be called directly in order
+	 * to avoid overloading the redrawing engine.
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		if(mState == STATUS_NOMINAL) {
@@ -117,12 +161,6 @@ public class StatusIndicator extends JButton implements ActionListener {
 			} else setBackground(Color.RED);
 		}
 		super.paintComponent(g);
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		clearAlert();
-		repaint();
 	}
 
 }

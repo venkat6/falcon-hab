@@ -12,16 +12,31 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
+/**
+ * A window to display all relevant payload status information in a single glance.
+ * @author Ethan Harstad
+ *
+ */
 public class StatusFrame extends Thread {
 
 	private static JFrame window;
 	private static MissionClock missionTime;
 	private static StatusBar statusBar;
 	private static StatusIndicator primaryGPS;
+	private static StatusIndicator primaryVoltage;
+	private static JTextField primaryVoltageDisplay;
+	private static StatusIndicator primaryUpdate;
 	private static StatusIndicator secondaryGPS;
+	private static StatusIndicator secondaryVoltage;
+	private static JTextField secondaryVoltageDisplay;
+	private static StatusIndicator secondaryUpdate;
 	private static StatusIndicator recovery;
 	
+	/**
+	 * Default constructor
+	 */
 	public StatusFrame() {
 		window = new JFrame("Status");
 		window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -47,12 +62,28 @@ public class StatusFrame extends Thread {
 		primaryPanel.setLayout(new BoxLayout(primaryPanel, BoxLayout.PAGE_AXIS));
 		primaryGPS = new StatusIndicator("GPS Lock");
 		primaryPanel.add(primaryGPS);
+		primaryVoltage = new StatusIndicator("Voltage");
+		primaryVoltage.setState(StatusIndicator.STATUS_ABNORMAL);
+		primaryPanel.add(primaryVoltage);
+		primaryVoltageDisplay = new JTextField("--.-v",5);
+		primaryPanel.add(primaryVoltageDisplay);
+		primaryUpdate = new StatusIndicator("Good Packets", "Bad Packets", "Comms Lost", true, true);
+		primaryUpdate.setState(StatusIndicator.STATUS_ABNORMAL);
+		primaryPanel.add(primaryUpdate);
 		//TODO add primary status indicators
 		panel.add(primaryPanel);
 		TitledPanel secondaryPanel = new TitledPanel("Secondary");
 		secondaryPanel.setLayout(new BoxLayout(secondaryPanel, BoxLayout.PAGE_AXIS));
 		secondaryGPS = new StatusIndicator("GPS Lock");
 		secondaryPanel.add(secondaryGPS);
+		secondaryVoltage = new StatusIndicator("Voltage");
+		secondaryVoltage.setState(StatusIndicator.STATUS_ABNORMAL);
+		secondaryPanel.add(secondaryVoltage);
+		secondaryVoltageDisplay = new JTextField("--.-v", 5);
+		secondaryPanel.add(secondaryVoltageDisplay);
+		secondaryUpdate = new StatusIndicator("Good Packets", "Bad Packets", "Comms Lost", true, true);
+		secondaryUpdate.setState(StatusIndicator.STATUS_ABNORMAL);
+		secondaryPanel.add(secondaryUpdate);
 		//TODO add secondary status indicators
 		panel.add(secondaryPanel);
 		TitledPanel recoveryPanel = new TitledPanel("Recovery");
