@@ -1,7 +1,7 @@
 package falcon.components.windows;
 
 import falcon.FalconApp;
-
+import falcon.components.gui.LabeledField;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,7 +11,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -19,7 +18,8 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 /**
- * 
+ * A window to display all the relevant tracking information for any object
+ * being tracked by the system.
  * @author Ethan Harstad
  *
  */
@@ -28,14 +28,16 @@ public class TrackingFrame extends Thread implements ActionListener {
 	private static JFrame window;
 	private static ArrayList<Calls> mCallsigns = new ArrayList<Calls>();
 	
-	private static JTextField primaryLocation;
-	private static JTextField primaryLastHeard;
+	private static LabeledField primaryLocation;
+	private static LabeledField primaryAltitude;
+	private static LabeledField primaryLastHeard;
 	private static JTextArea primaryLastPacket;
-	private static JTextField secondaryLocation;
-	private static JTextField secondaryLastHeard;
+	private static LabeledField secondaryLocation;
+	private static LabeledField secondaryAltitude;
+	private static LabeledField secondaryLastHeard;
 	private static JTextArea secondaryLastPacket;
-	private static JTextField recoveryLocation;
-	private static JTextField recoveryLastHeard;
+	private static LabeledField recoveryLocation;
+	private static LabeledField recoveryLastHeard;
 	private static JTextArea recoveryLastPacket;
 	
 	static JMenuItem mTrackingCallsigns;
@@ -68,15 +70,11 @@ public class TrackingFrame extends Thread implements ActionListener {
 		window.getContentPane().add(mainPane);
 		
 		primaryPanel.setLayout(new BoxLayout(primaryPanel, BoxLayout.PAGE_AXIS));
-		JLabel lPrimaryLocation = new JLabel("Position:");
-		primaryPanel.add(lPrimaryLocation);
-		primaryLocation = new JTextField(30);
-		primaryLocation.setEditable(false);
+		primaryLocation = new LabeledField("Position:", 18, LabeledField.STACKED, false);
 		primaryPanel.add(primaryLocation);
-		JLabel lPrimaryLastHeard = new JLabel("Last Heard:");
-		primaryPanel.add(lPrimaryLastHeard);
-		primaryLastHeard = new JTextField(30);
-		primaryLastHeard.setEditable(false);
+		primaryAltitude = new LabeledField("Altitude:", 9, LabeledField.INLINE, false);
+		primaryPanel.add(primaryAltitude);
+		primaryLastHeard = new LabeledField("Last Heard:", 8, LabeledField.INLINE, false);
 		primaryPanel.add(primaryLastHeard);
 		JLabel lPrimaryLastPacket = new JLabel("Last Packet:");
 		primaryPanel.add(lPrimaryLastPacket);
@@ -85,15 +83,11 @@ public class TrackingFrame extends Thread implements ActionListener {
 		primaryPanel.add(primaryLastPacket);
 		
 		secondaryPanel.setLayout(new BoxLayout(secondaryPanel, BoxLayout.PAGE_AXIS));
-		JLabel lSecondaryLocation = new JLabel("Position:");
-		secondaryPanel.add(lSecondaryLocation);
-		secondaryLocation = new JTextField(30);
-		secondaryLocation.setEditable(false);
+		secondaryLocation = new LabeledField("Position:", 18, LabeledField.STACKED, false);
 		secondaryPanel.add(secondaryLocation);
-		JLabel lSecondaryLastHeard = new JLabel("Last Heard:");
-		secondaryPanel.add(lSecondaryLastHeard);
-		secondaryLastHeard = new JTextField(30);
-		secondaryLastHeard.setEditable(false);
+		secondaryAltitude = new LabeledField("Altitude:", 9, LabeledField.INLINE, false);
+		secondaryPanel.add(secondaryAltitude);
+		secondaryLastHeard = new LabeledField("Last Heard:", 8, LabeledField.INLINE, false);
 		secondaryPanel.add(secondaryLastHeard);
 		JLabel lSecondaryLastPacket = new JLabel("Last Packet:");
 		secondaryPanel.add(lSecondaryLastPacket);
@@ -102,15 +96,9 @@ public class TrackingFrame extends Thread implements ActionListener {
 		secondaryPanel.add(secondaryLastPacket);
 		
 		recoveryPanel.setLayout(new BoxLayout(recoveryPanel, BoxLayout.PAGE_AXIS));
-		JLabel lRecoveryLocation = new JLabel("Position:");
-		recoveryPanel.add(lRecoveryLocation);
-		recoveryLocation = new JTextField(30);
-		recoveryLocation.setEditable(false);
+		recoveryLocation = new LabeledField("Position:", 18, LabeledField.STACKED, false);
 		recoveryPanel.add(recoveryLocation);
-		JLabel lRecoveryLastHeard = new JLabel("Last Heard:");
-		recoveryPanel.add(lRecoveryLastHeard);
-		recoveryLastHeard = new JTextField(30);
-		recoveryLastHeard.setEditable(false);
+		recoveryLastHeard = new LabeledField("Last Heard:", 9, LabeledField.INLINE, false);
 		recoveryPanel.add(recoveryLastHeard);
 		JLabel lRecoveryLastPacket = new JLabel("Last Packet:");
 		recoveryPanel.add(lRecoveryLastPacket);

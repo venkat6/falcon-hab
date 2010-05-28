@@ -7,6 +7,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * A basic about box for FALCON
+ * @author Ethan Harstad
+ *
+ */
 public class AboutFrame extends JFrame {
 
 	public AboutFrame() {

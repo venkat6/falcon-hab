@@ -134,6 +134,10 @@ public class FalconApp extends JFrame {
 		return cMenuBar;
 	}
 	
+	/**
+	 * Takes notifications of closing windows and unchecks the appropriate item
+	 * @param name
+	 */
 	public static void windowClosing(String name) {
 		if(name.equals("Tracking")) {
 			cWindowTracking.setState(false);

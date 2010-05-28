@@ -1,16 +1,24 @@
 package falcon.components.windows;
 
+//TODO Add support for multiple payload tracking
+//TODO Remove dependency on parent?
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+/**
+ * A window to set the callsigns to be tracked by the system.
+ * This class should be stored to a member variable and instead should be disposed of.
+ * @author Ethan Harstad
+ *
+ */
 public class CallsignsTrackingFrame extends JFrame {
 
 	private static TrackingFrame mParent;
@@ -18,6 +26,11 @@ public class CallsignsTrackingFrame extends JFrame {
 	private static JTextField secondaryCallsign;
 	private static JTextField recoveryCallsign;
 	
+	/**
+	 * Creates and displays the window.
+	 * @param parent The object that spawns the window, used to pass the callsigns back
+	 * @param tracking The callsigns currently being tracked by the system
+	 */
 	public CallsignsTrackingFrame(TrackingFrame parent, ArrayList<Calls> tracking) {
 		super("Callsigns");
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
