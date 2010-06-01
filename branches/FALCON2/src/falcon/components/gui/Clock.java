@@ -22,6 +22,7 @@ public class Clock extends JTextField {
 	 */
 	public Clock(int size) {
 		super(9);
+		// Create the font used to display the time
 		setFont(new Font("Monospaced", Font.PLAIN, size));
 		setEditable(false);
 		setHorizontalAlignment(JTextField.CENTER);

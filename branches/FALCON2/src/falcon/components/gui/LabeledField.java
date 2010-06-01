@@ -15,8 +15,9 @@ public class LabeledField extends JPanel {
 	
 	private JTextField field;
 	
-	public static int STACKED = 0;
-	public static int INLINE = 1;
+	// Layout constants
+	public static int STACKED = 0;	// Label above text field
+	public static int INLINE = 1;	// Label to left of text field
 	
 	/**
 	 * Creates a field with the given label and the given number of columns.

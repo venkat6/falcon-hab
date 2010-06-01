@@ -20,10 +20,15 @@ public class LogPanel extends JScrollPane {
 	private JTextPane textPane = new JTextPane();
 	
 	// Create the different styles
+	// Standard text used for regular messages
 	private static SimpleAttributeSet PLAIN = new SimpleAttributeSet();
+	// Green text used for events
 	private static SimpleAttributeSet EVENT = new SimpleAttributeSet();
+	// Yellow text used for warnings
 	private static SimpleAttributeSet WARNING = new SimpleAttributeSet();
+	// Red text used for alerts
 	private static SimpleAttributeSet ALERT = new SimpleAttributeSet();
+	// Blue text used for system debug messages
 	private static SimpleAttributeSet DEBUG = new SimpleAttributeSet();
 	static {
 		StyleConstants.setFontFamily(PLAIN, "Monospaced");
@@ -98,6 +103,10 @@ public class LogPanel extends JScrollPane {
 		addString(message, DEBUG);
 	}
 	
+	/**
+	 * Default draw method, uses standard font.
+	 * @param message
+	 */
 	private void addString(String message) {
 		StyledDocument doc = textPane.getStyledDocument();
 		try {
@@ -108,6 +117,11 @@ public class LogPanel extends JScrollPane {
 		}
 	}
 	
+	/**
+	 * Specific draw method, uses the given font.
+	 * @param message
+	 * @param a
+	 */
 	private void addString(String message, SimpleAttributeSet a) {
 		StyledDocument doc = textPane.getStyledDocument();
 		try {
