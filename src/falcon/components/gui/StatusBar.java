@@ -1,10 +1,12 @@
 package falcon.components.gui;
 
+// TODO add functionality
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
 /**
- * A basic status bar class
+ * A basic status bar class.  Allows basic text display
  * @author Ethan Harstad
  *
  */

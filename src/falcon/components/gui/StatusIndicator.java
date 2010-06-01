@@ -29,10 +29,10 @@ public class StatusIndicator extends JButton {
 	private static Timer timer;
 	
 	// Status Constants
-	public static final int STATUS_NOMINAL = 0;
-	public static final int STATUS_MARGINAL = 1;
-	public static final int STATUS_ABNORMAL = 2;
-	public static final int STATUS_DISABLED = -1;
+	public static final int STATUS_NOMINAL = 0;		// Normal status, Green
+	public static final int STATUS_MARGINAL = 1;	// Marginal status, Yellow
+	public static final int STATUS_ABNORMAL = 2;	// Abnormal status, Red
+	public static final int STATUS_DISABLED = -1;	// Disabled
 	
 	/**
 	 * Default constructor.  Creates an indicator with no display text.
@@ -41,7 +41,8 @@ public class StatusIndicator extends JButton {
 	 */
 	public StatusIndicator() {
 		super();
-		setState(STATUS_DISABLED);
+		setState(STATUS_DISABLED);	// default state
+		// create a timer to use to handle redrawing for flashing alarm
 		timer = new Timer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mFlash = !mFlash;
@@ -107,17 +108,14 @@ public class StatusIndicator extends JButton {
 		} else if(mState == STATUS_MARGINAL) {
 			setText(mMarginalLabel);
 			setEnabled(true);
+			if(mAlertMarginal) setAlert();
 		} else if(mState == STATUS_ABNORMAL) {
 			setText(mAbnormalLabel);
 			setEnabled(true);
+			if(mAlertAbnormal) setAlert();
 		} else {
 			setText(mAbnormalLabel);
 			setEnabled(false);
-		}
-		
-		if((state == STATUS_MARGINAL && mAlertMarginal) ||
-		   (state == STATUS_ABNORMAL && mAlertAbnormal)) {
-			setAlert();
 		}
 	}
 	
@@ -125,6 +123,7 @@ public class StatusIndicator extends JButton {
 	 * Puts the indicator into an alerted state (flashing).
 	 */
 	public void setAlert() {
+		// TODO add audio notification
 		mAlert = true;
 	}
 	
