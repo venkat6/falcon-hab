@@ -29,6 +29,8 @@ public class FalconApp extends JFrame {
 	static JCheckBoxMenuItem cWindowPrediction;
 	static StatusFrame statusWindow;
 	static JCheckBoxMenuItem cWindowStatus;
+	static MapFrame mapWindow;
+	static JCheckBoxMenuItem cWindowMap;
 	static LogPanel terminal;
 
 	public static void main(String[] args) {
@@ -54,6 +56,7 @@ public class FalconApp extends JFrame {
 		trackingWindow = new TrackingFrame();
 		predictionWindow = new PredictionFrame();
 		statusWindow = new StatusFrame();
+		mapWindow = new MapFrame();
 		JPanel panel = new JPanel();
 		mainWindow.getContentPane().add(panel);
 		//TODO Add components
@@ -84,37 +87,30 @@ public class FalconApp extends JFrame {
 		cWindowTracking = new JCheckBoxMenuItem("Tracking");
 		cWindowTracking.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				if(e.getStateChange() == ItemEvent.SELECTED) {
-					trackingWindow.setVisible(true);
-				} else {
-					trackingWindow.setVisible(false);
-				}
+				trackingWindow.setVisible(e.getStateChange() == ItemEvent.SELECTED);
 			}
 		});
 		cWindowMenu.add(cWindowTracking);
 		cWindowPrediction = new JCheckBoxMenuItem("Prediction");
 		cWindowPrediction.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				if(e.getStateChange() == ItemEvent.SELECTED) {
-					predictionWindow.setVisible(true);
-				} else {
-					predictionWindow.setVisible(false);
-				}
+				predictionWindow.setVisible(e.getStateChange() == ItemEvent.SELECTED);
 			}
 		});
 		cWindowMenu.add(cWindowPrediction);
-		JCheckBoxMenuItem cWindowMap = new JCheckBoxMenuItem("Map");
+		cWindowMap = new JCheckBoxMenuItem("Map");
+		cWindowMap.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				mapWindow.setVisible(e.getStateChange() == ItemEvent.SELECTED);
+			}
+		});
 		cWindowMenu.add(cWindowMap);
 		JCheckBoxMenuItem cWindowTelemetry = new JCheckBoxMenuItem("Telemetry");
 		cWindowMenu.add(cWindowTelemetry);
 		cWindowStatus = new JCheckBoxMenuItem("Status");
 		cWindowStatus.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				if(e.getStateChange() == ItemEvent.SELECTED) {
-					statusWindow.setVisible(true);
-				} else {
-					statusWindow.setVisible(false);
-				}
+				statusWindow.setVisible(e.getStateChange() == ItemEvent.SELECTED);
 			}
 		});
 		cWindowMenu.add(cWindowStatus);
@@ -145,6 +141,8 @@ public class FalconApp extends JFrame {
 			cWindowPrediction.setState(false);
 		} else if(name.equals("Status")) {
 			cWindowStatus.setState(false);
+		} else if(name.equals("Map")) {
+			cWindowMap.setState(false);
 		}
 	}
 	
