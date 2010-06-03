@@ -17,6 +17,7 @@ public class AboutFrame extends JFrame {
 	public AboutFrame() {
 		super("About FALCON");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		JLabel versionText = new JLabel("Version: " + FalconApp.VERSION);
 		JLabel aboutText = new JLabel("<html>" +
 				"<h2>FALCON (Flight And Logistics CONtrol)</h2>" +
 				"is an open source project created by SSCL at Iowa State University<br>" +
@@ -25,9 +26,8 @@ public class AboutFrame extends JFrame {
 		JLabel authorText = new JLabel("<html>" +
 				"Authors:<ul><li>Ethan Harstad</li>" +
 				"<li>Joe Coleman</li>" +
-				"<li>Matthew Nelson</li>" +
-				"</ul><br></html>");
-		JLabel versionText = new JLabel("Version: " + FalconApp.VERSION);
+				"<li>Some components from Swing Labs</li>" +
+				"</ul><br><hr></html>");
 		JLabel linkText = new JLabel("<html>" +
 				"Project Page: http://www.google.com/p/falcon-hab<br>" +
 				"Space Systems and Controls Lab: http://www.sscl.iastate.edu<br>" +
@@ -38,10 +38,11 @@ public class AboutFrame extends JFrame {
 		getContentPane().add(panel);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+		panel.add(versionText);
 		panel.add(aboutText);
 		panel.add(authorText);
 		panel.add(linkText);
-		panel.add(versionText);
+		
 		pack();
 		setVisible(true);
 	}

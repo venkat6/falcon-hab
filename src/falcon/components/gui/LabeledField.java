@@ -1,5 +1,7 @@
 package falcon.components.gui;
 
+import java.awt.Component;
+
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,6 +35,8 @@ public class LabeledField extends JPanel {
 		field.setEditable(editable);
 		if(layout == STACKED) {
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+			label.setAlignmentX(Component.LEFT_ALIGNMENT);
+			field.setAlignmentX(Component.LEFT_ALIGNMENT);
 		} else {
 			setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		}

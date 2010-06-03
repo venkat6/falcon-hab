@@ -6,6 +6,7 @@ import falcon.components.gui.MissionClock;
 import falcon.components.gui.StatusBar;
 import falcon.components.gui.StatusIndicator;
 import falcon.components.gui.TitledPanel;
+import java.awt.Component;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.BoxLayout;
@@ -19,9 +20,8 @@ import javax.swing.JTextField;
  * @author Ethan Harstad
  *
  */
-public class StatusFrame extends Thread {
+public class StatusFrame extends JFrame {
 
-	private static JFrame window;
 	private static MissionClock missionTime;
 	private static StatusBar statusBar;
 	private static StatusIndicator primaryGPS;
@@ -38,77 +38,88 @@ public class StatusFrame extends Thread {
 	 * Default constructor
 	 */
 	public StatusFrame() {
-		window = new JFrame("Status");
-		window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		window.addWindowListener(new WindowAdapter() {
+		super("Status");
+		super.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		super.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				window.setVisible(false);
+				setVisible(false);
 				FalconApp.windowClosing("Status");
 			}
 		});
 		
 		JPanel panel = new JPanel();
-		window.getContentPane().add(panel);
+		super.getContentPane().add(panel);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		JLabel clockLabel = new JLabel("Local Time:");
+		clockLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(clockLabel);
 		Clock clock = new Clock(16);
+		clock.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(clock);
 		JLabel missionTimeLabel = new JLabel("Mission Time:");
+		missionTimeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(missionTimeLabel);
 		missionTime = new MissionClock(16);
+		missionTime.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(missionTime);
 		TitledPanel primaryPanel = new TitledPanel("Primary");
 		primaryPanel.setLayout(new BoxLayout(primaryPanel, BoxLayout.PAGE_AXIS));
+		primaryPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		primaryGPS = new StatusIndicator("GPS Lock");
+		primaryGPS.setState(StatusIndicator.STATUS_ABNORMAL);
+		primaryGPS.setAlignmentX(Component.CENTER_ALIGNMENT);
 		primaryPanel.add(primaryGPS);
 		primaryVoltage = new StatusIndicator("Voltage");
 		primaryVoltage.setState(StatusIndicator.STATUS_ABNORMAL);
+		primaryVoltage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		primaryPanel.add(primaryVoltage);
 		primaryVoltageDisplay = new JTextField("--.-v",5);
+		primaryVoltageDisplay.setEditable(false);
+		primaryVoltageDisplay.setHorizontalAlignment(JTextField.CENTER);
+		primaryVoltageDisplay.setAlignmentX(Component.CENTER_ALIGNMENT);
 		primaryPanel.add(primaryVoltageDisplay);
 		primaryUpdate = new StatusIndicator("Good Packets", "Bad Packets", "Comms Lost", true, true);
 		primaryUpdate.setState(StatusIndicator.STATUS_ABNORMAL);
+		primaryUpdate.setAlignmentX(Component.CENTER_ALIGNMENT);
 		primaryPanel.add(primaryUpdate);
 		//TODO add primary status indicators
 		panel.add(primaryPanel);
 		TitledPanel secondaryPanel = new TitledPanel("Secondary");
+		secondaryPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		secondaryPanel.setLayout(new BoxLayout(secondaryPanel, BoxLayout.PAGE_AXIS));
 		secondaryGPS = new StatusIndicator("GPS Lock");
+		secondaryGPS.setState(StatusIndicator.STATUS_ABNORMAL);
+		secondaryGPS.setAlignmentX(Component.CENTER_ALIGNMENT);
 		secondaryPanel.add(secondaryGPS);
 		secondaryVoltage = new StatusIndicator("Voltage");
 		secondaryVoltage.setState(StatusIndicator.STATUS_ABNORMAL);
+		secondaryVoltage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		secondaryPanel.add(secondaryVoltage);
 		secondaryVoltageDisplay = new JTextField("--.-v", 5);
+		secondaryVoltageDisplay.setEditable(false);
+		secondaryVoltageDisplay.setHorizontalAlignment(JTextField.CENTER);
+		secondaryVoltageDisplay.setAlignmentX(Component.CENTER_ALIGNMENT);
 		secondaryPanel.add(secondaryVoltageDisplay);
 		secondaryUpdate = new StatusIndicator("Good Packets", "Bad Packets", "Comms Lost", true, true);
 		secondaryUpdate.setState(StatusIndicator.STATUS_ABNORMAL);
+		secondaryUpdate.setAlignmentX(Component.CENTER_ALIGNMENT);
 		secondaryPanel.add(secondaryUpdate);
 		//TODO add secondary status indicators
 		panel.add(secondaryPanel);
 		TitledPanel recoveryPanel = new TitledPanel("Recovery");
 		recoveryPanel.setLayout(new BoxLayout(recoveryPanel, BoxLayout.PAGE_AXIS));
+		recoveryPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		recovery = new StatusIndicator("Recovery");
+		recovery.setState(StatusIndicator.STATUS_ABNORMAL);
+		recovery.setAlignmentX(Component.CENTER_ALIGNMENT);
 		recoveryPanel.add(recovery);
 		//TODO add recovery status indicators
 		panel.add(recoveryPanel);
 		statusBar = new StatusBar("Status");
+		statusBar.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(statusBar, java.awt.BorderLayout.SOUTH);
 		
-		primaryGPS.setState(StatusIndicator.STATUS_ABNORMAL);
-		secondaryGPS.setState(StatusIndicator.STATUS_ABNORMAL);
-		recovery.setState(StatusIndicator.STATUS_ABNORMAL);
-		
-		window.pack();
-		start();
-	}
-	
-	public void setVisible(boolean state) {
-		window.setVisible(state);
-	}
-	
-	public void run() {
-		
+		super.pack();
 	}
 	
 }
