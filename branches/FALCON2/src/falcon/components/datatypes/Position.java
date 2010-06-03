@@ -7,7 +7,7 @@ package falcon.components.datatypes;
  * 
  * @author Ethan Harstad
  */
-public class Position {
+public class Position extends Location {
 	
 	private Location loc;
 	private double alt;
@@ -80,6 +80,7 @@ public class Position {
 	 * Returns the latitude of the position.
 	 * @return
 	 */
+	@Override
 	public double getLatitude() {
 		return loc.getLatitude();
 	}
@@ -88,14 +89,16 @@ public class Position {
 	 * Returns the longitude of the position.
 	 * @return
 	 */
+	@Override
 	public double getLongitude() {
 		return loc.getLongitude();
 	}
 	
 	/**
-	 * Returns a simple comma seperated string of the position.
+	 * Returns a simple comma separated string of the position.
 	 * Suitable for basic output only.
 	 */
+	@Override
 	public String toString() {
 		return loc.toString() + ", " + alt;
 	}
@@ -104,6 +107,7 @@ public class Position {
 	 * Returns a human readable string of the position.
 	 * @return
 	 */
+	@Override
 	public String toPrettyString() {
 		return loc.toPrettyString() + " at " + alt;
 	}

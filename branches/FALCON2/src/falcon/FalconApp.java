@@ -7,6 +7,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -37,26 +40,31 @@ public class FalconApp extends JFrame {
 		
 		createWindow();
 		
-		while(true) {
-			//window.repaint();
-		}
-		
 	}
 	
 	private static void createWindow() {
+		// Create main window and restore state information
 		mainWindow = new JFrame("FALCON " + VERSION + " - Iowa State University SSCL");
+		StateSaver.recallWindowState(mainWindow, new File("state.ini"));
 		mainWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		mainWindow.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				exitDialog();
 			}
 		});
-		
 		mainWindow.setJMenuBar(createMenuBar());
+		
+		// Build other windows and restore state information
 		trackingWindow = new TrackingFrame();
+		cWindowTracking.setState(StateSaver.recallWindowState(trackingWindow, new File("state.ini")));
 		predictionWindow = new PredictionFrame();
+		cWindowPrediction.setState(StateSaver.recallWindowState(predictionWindow, new File("state.ini")));
 		statusWindow = new StatusFrame();
+		cWindowStatus.setState(StateSaver.recallWindowState(statusWindow, new File("state.ini")));
 		mapWindow = new MapFrame();
+		cWindowMap.setState(StateSaver.recallWindowState(mapWindow, new File("state.ini")));
+		
+		// Populate main window
 		JPanel panel = new JPanel();
 		mainWindow.getContentPane().add(panel);
 		//TODO Add components
@@ -146,8 +154,25 @@ public class FalconApp extends JFrame {
 		}
 	}
 	
+	/**
+	 * Get exit confirmation from user
+	 */
 	public static void exitDialog() {
 		if(JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			// User confirmed exit
+			// Save window state information
+			FileOutputStream file = null;
+			try {
+				file = new FileOutputStream("state.ini");
+			} catch (FileNotFoundException e) {
+				System.err.println("Could not open file for window state saving");
+			}
+			StateSaver.saveWindowState(mainWindow, file);
+			StateSaver.saveWindowState(mapWindow, file);
+			StateSaver.saveWindowState(predictionWindow, file);
+			StateSaver.saveWindowState(trackingWindow, file);
+			StateSaver.saveWindowState(statusWindow, file);
+			
 			//TODO clean up, write logs etc
 			System.exit(0);
 		}

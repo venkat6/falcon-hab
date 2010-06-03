@@ -23,9 +23,8 @@ import java.util.ArrayList;
  * @author Ethan Harstad
  *
  */
-public class TrackingFrame extends Thread implements ActionListener {
+public class TrackingFrame extends JFrame implements ActionListener {
 	
-	private static JFrame window;
 	private static ArrayList<Calls> mCallsigns = new ArrayList<Calls>();
 	
 	private static LabeledField primaryLocation;
@@ -43,11 +42,11 @@ public class TrackingFrame extends Thread implements ActionListener {
 	static JMenuItem mTrackingCallsigns;
 	
 	public TrackingFrame() {
-		window = new JFrame("Tracking");
-		window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		window.addWindowListener(new WindowAdapter() {
+		super("Tracking");
+		super.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		super.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				window.setVisible(false);
+				setVisible(false);
 				FalconApp.windowClosing("Tracking");
 			}
 		});
@@ -58,7 +57,7 @@ public class TrackingFrame extends Thread implements ActionListener {
 		mTrackingCallsigns = new JMenuItem("Callsigns");
 		mTrackingCallsigns.addActionListener(this);
 		mTracking.add(mTrackingCallsigns);
-		window.setJMenuBar(menuBar);
+		super.setJMenuBar(menuBar);
 		
 		JTabbedPane mainPane = new JTabbedPane();
 		JPanel primaryPanel = new JPanel();
@@ -67,47 +66,60 @@ public class TrackingFrame extends Thread implements ActionListener {
 		mainPane.addTab("Secondary", secondaryPanel);
 		JPanel recoveryPanel = new JPanel();
 		mainPane.addTab("Recovery", recoveryPanel);
-		window.getContentPane().add(mainPane);
+		super.getContentPane().add(mainPane);
 		
 		primaryPanel.setLayout(new BoxLayout(primaryPanel, BoxLayout.PAGE_AXIS));
 		primaryLocation = new LabeledField("Position:", 18, LabeledField.STACKED, false);
+		primaryLocation.setAlignmentX(LEFT_ALIGNMENT);
 		primaryPanel.add(primaryLocation);
 		primaryAltitude = new LabeledField("Altitude:", 9, LabeledField.INLINE, false);
+		primaryAltitude.setAlignmentX(LEFT_ALIGNMENT);
 		primaryPanel.add(primaryAltitude);
 		primaryLastHeard = new LabeledField("Last Heard:", 8, LabeledField.INLINE, false);
+		primaryLastHeard.setAlignmentX(LEFT_ALIGNMENT);
 		primaryPanel.add(primaryLastHeard);
 		JLabel lPrimaryLastPacket = new JLabel("Last Packet:");
+		lPrimaryLastPacket.setAlignmentX(LEFT_ALIGNMENT);
 		primaryPanel.add(lPrimaryLastPacket);
 		primaryLastPacket = new JTextArea(2,30);
 		primaryLastPacket.setEditable(false);
+		primaryLastPacket.setAlignmentX(LEFT_ALIGNMENT);
 		primaryPanel.add(primaryLastPacket);
 		
 		secondaryPanel.setLayout(new BoxLayout(secondaryPanel, BoxLayout.PAGE_AXIS));
 		secondaryLocation = new LabeledField("Position:", 18, LabeledField.STACKED, false);
+		secondaryLocation.setAlignmentX(LEFT_ALIGNMENT);
 		secondaryPanel.add(secondaryLocation);
 		secondaryAltitude = new LabeledField("Altitude:", 9, LabeledField.INLINE, false);
+		secondaryAltitude.setAlignmentX(LEFT_ALIGNMENT);
 		secondaryPanel.add(secondaryAltitude);
 		secondaryLastHeard = new LabeledField("Last Heard:", 8, LabeledField.INLINE, false);
+		secondaryLastHeard.setAlignmentX(LEFT_ALIGNMENT);
 		secondaryPanel.add(secondaryLastHeard);
 		JLabel lSecondaryLastPacket = new JLabel("Last Packet:");
+		lSecondaryLastPacket.setAlignmentX(LEFT_ALIGNMENT);
 		secondaryPanel.add(lSecondaryLastPacket);
 		secondaryLastPacket = new JTextArea(2,30);
 		secondaryLastPacket.setEditable(false);
+		secondaryLastPacket.setAlignmentX(LEFT_ALIGNMENT);
 		secondaryPanel.add(secondaryLastPacket);
 		
 		recoveryPanel.setLayout(new BoxLayout(recoveryPanel, BoxLayout.PAGE_AXIS));
 		recoveryLocation = new LabeledField("Position:", 18, LabeledField.STACKED, false);
+		recoveryLocation.setAlignmentX(LEFT_ALIGNMENT);
 		recoveryPanel.add(recoveryLocation);
 		recoveryLastHeard = new LabeledField("Last Heard:", 9, LabeledField.INLINE, false);
+		recoveryLastHeard.setAlignmentX(LEFT_ALIGNMENT);
 		recoveryPanel.add(recoveryLastHeard);
 		JLabel lRecoveryLastPacket = new JLabel("Last Packet:");
+		lRecoveryLastPacket.setAlignmentX(LEFT_ALIGNMENT);
 		recoveryPanel.add(lRecoveryLastPacket);
 		recoveryLastPacket = new JTextArea(2,30);
 		recoveryLastPacket.setEditable(false);
+		recoveryLastPacket.setAlignmentX(LEFT_ALIGNMENT);
 		recoveryPanel.add(recoveryLastPacket);
 		
-		window.pack();
-		start();
+		super.pack();
 	}
 
 	@Override
@@ -122,14 +134,6 @@ public class TrackingFrame extends Thread implements ActionListener {
 	public void updateCallsigns(ArrayList<Calls> callsigns) {
 		mCallsigns = callsigns;
 		//TODO
-	}
-	
-	public void setVisible(boolean v) {
-		window.setVisible(v);
-	}
-	
-	public void run() {
-		
 	}
 
 }

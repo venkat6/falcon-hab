@@ -11,37 +11,27 @@ import falcon.FalconApp;
 import falcon.components.gui.MapPanel;
 import falcon.components.datatypes.Location;
 
-public class MapFrame extends Thread {
+public class MapFrame extends JFrame {
 	
-	JFrame frame;
 	MapPanel map;
 	
 	public MapFrame() {
-		frame = new JFrame("Map");
-		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		frame.addWindowListener(new WindowAdapter() {
+		super("Map");
+		super.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		super.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				frame.setVisible(false);
+				setVisible(false);
 				FalconApp.windowClosing("Map");
 			}
 		});
 		
 		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel);
+		super.getContentPane().add(panel);
 		map = new MapPanel(new Location(42.03, -93.63));
 		map.setPreferredSize(new Dimension(800, 600));
 		panel.add(map);
 		
-		frame.pack();
-		start();
-	}
-	
-	public void setVisible(boolean state) {
-		frame.setVisible(state);
-	}
-	
-	public void run() {
-		
+		super.pack();
 	}
 	
 }
