@@ -34,6 +34,8 @@ public class FalconApp extends JFrame {
 	static JCheckBoxMenuItem cWindowStatus;
 	static MapFrame mapWindow;
 	static JCheckBoxMenuItem cWindowMap;
+	static LogbookFrame logWindow;
+	static JCheckBoxMenuItem cWindowLog;
 	static LogPanel terminal;
 
 	public static void main(String[] args) {
@@ -63,6 +65,8 @@ public class FalconApp extends JFrame {
 		cWindowStatus.setState(StateSaver.recallWindowState(statusWindow, new File("state.ini")));
 		mapWindow = new MapFrame();
 		cWindowMap.setState(StateSaver.recallWindowState(mapWindow, new File("state.ini")));
+		logWindow = new LogbookFrame();
+		cWindowLog.setState(StateSaver.recallWindowState(logWindow, new File("state.ini")));
 		
 		// Populate main window
 		JPanel panel = new JPanel();
@@ -122,6 +126,13 @@ public class FalconApp extends JFrame {
 			}
 		});
 		cWindowMenu.add(cWindowStatus);
+		cWindowLog = new JCheckBoxMenuItem("Logbook");
+		cWindowLog.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				logWindow.setVisible(e.getStateChange() == ItemEvent.SELECTED);
+			}
+		});
+		cWindowMenu.add(cWindowLog);
 		
 		JMenu cHelpMenu = new JMenu("Help");
 		cMenuBar.add(cHelpMenu);
@@ -172,6 +183,7 @@ public class FalconApp extends JFrame {
 			StateSaver.saveWindowState(predictionWindow, file);
 			StateSaver.saveWindowState(trackingWindow, file);
 			StateSaver.saveWindowState(statusWindow, file);
+			StateSaver.saveWindowState(logWindow, file);
 			
 			//TODO clean up, write logs etc
 			System.exit(0);

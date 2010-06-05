@@ -5,7 +5,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
-
+import java.util.LinkedList;
 import falcon.components.datatypes.Location;
 import org.jdesktop.swingx.JXMapKit;
 import org.jdesktop.swingx.JXMapViewer;
@@ -35,12 +35,16 @@ public class MapPanel extends JXMapKit {
 		});
 	}
 	
-	public void drawPath() {
+	public void drawPath(LinkedList<Location> path) {
 		//TODO MapPanel-drawPath
 	}
 	
-	public void drawMarker() {
+	public void drawMarker(Location point, int icon) {
 		//TODO MapPanel-drawMarker
+	}
+	
+	public void drawMarker(Location point, Color color) {
+		
 	}
 	
 }
