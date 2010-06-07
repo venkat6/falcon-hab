@@ -26,7 +26,8 @@ public class AboutFrame extends JFrame {
 		JLabel authorText = new JLabel("<html>" +
 				"Authors:<ul><li>Ethan Harstad</li>" +
 				"<li>Joe Coleman</li>" +
-				"<li>Some components from Swing Labs</li>" +
+				"<li>Swing Labs</li>" +
+				"<li>jDDE Library</li>" +
 				"</ul><br><hr></html>");
 		JLabel linkText = new JLabel("<html>" +
 				"Project Page: http://www.google.com/p/falcon-hab<br>" +
