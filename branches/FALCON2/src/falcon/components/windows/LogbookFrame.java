@@ -75,7 +75,7 @@ public class LogbookFrame extends JFrame {
 		JPanel entryPanel = new JPanel();
 		LabeledField name = new LabeledField("Name:", 10, LabeledField.INLINE, true);
 		entryPanel.add(name, BorderLayout.WEST);
-		LabeledField msg = new LabeledField("Message:", 20, LabeledField.INLINE, true);
+		LabeledField msg = new LabeledField("Message:", 30, LabeledField.INLINE, true);
 		entryPanel.add(msg, BorderLayout.CENTER);
 		JButton submit = new JButton("Add");
 		submit.addActionListener(new ActionListener() {

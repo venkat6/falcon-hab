@@ -29,10 +29,14 @@ public class TrackingFrame extends JFrame implements ActionListener {
 	
 	private static LabeledField primaryLocation;
 	private static LabeledField primaryAltitude;
+	private static LabeledField primaryHeading;
+	private static LabeledField primaryAscent;
 	private static LabeledField primaryLastHeard;
 	private static JTextArea primaryLastPacket;
 	private static LabeledField secondaryLocation;
 	private static LabeledField secondaryAltitude;
+	private static LabeledField secondaryHeading;
+	private static LabeledField secondaryAscent;
 	private static LabeledField secondaryLastHeard;
 	private static JTextArea secondaryLastPacket;
 	private static LabeledField recoveryLocation;
@@ -75,6 +79,12 @@ public class TrackingFrame extends JFrame implements ActionListener {
 		primaryAltitude = new LabeledField("Altitude:", 9, LabeledField.INLINE, false);
 		primaryAltitude.setAlignmentX(LEFT_ALIGNMENT);
 		primaryPanel.add(primaryAltitude);
+		primaryHeading = new LabeledField("Heading:", 4, LabeledField.INLINE, false);
+		primaryHeading.setAlignmentX(LEFT_ALIGNMENT);
+		primaryPanel.add(primaryHeading);
+		primaryAscent = new LabeledField("Ascent Rate:", 6, LabeledField.INLINE, false);
+		primaryAscent.setAlignmentX(LEFT_ALIGNMENT);
+		primaryPanel.add(primaryAscent);
 		primaryLastHeard = new LabeledField("Last Heard:", 8, LabeledField.INLINE, false);
 		primaryLastHeard.setAlignmentX(LEFT_ALIGNMENT);
 		primaryPanel.add(primaryLastHeard);
@@ -93,6 +103,12 @@ public class TrackingFrame extends JFrame implements ActionListener {
 		secondaryAltitude = new LabeledField("Altitude:", 9, LabeledField.INLINE, false);
 		secondaryAltitude.setAlignmentX(LEFT_ALIGNMENT);
 		secondaryPanel.add(secondaryAltitude);
+		secondaryHeading = new LabeledField("Heading:", 4, LabeledField.INLINE, false);
+		secondaryHeading.setAlignmentX(LEFT_ALIGNMENT);
+		secondaryPanel.add(secondaryHeading);
+		secondaryAscent = new LabeledField("Ascent Rate:", 6, LabeledField.INLINE, false);
+		secondaryAscent.setAlignmentX(LEFT_ALIGNMENT);
+		secondaryPanel.add(secondaryAscent);
 		secondaryLastHeard = new LabeledField("Last Heard:", 8, LabeledField.INLINE, false);
 		secondaryLastHeard.setAlignmentX(LEFT_ALIGNMENT);
 		secondaryPanel.add(secondaryLastHeard);
