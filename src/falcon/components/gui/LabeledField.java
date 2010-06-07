@@ -80,4 +80,13 @@ public class LabeledField extends JPanel {
 	public void setEditable(boolean b) {
 		field.setEditable(b);
 	}
+	
+	/**
+	 * Sets whether the JTextField is enabled.
+	 */
+	@Override
+	public void setEnabled(boolean b) {
+		field.setEnabled(b);
+	}
+
 }
