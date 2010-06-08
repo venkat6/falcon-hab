@@ -4,6 +4,8 @@ package falcon.components.datatypes;
  * A class to hold a latitude/longitude/altitude triplet that makes up a position.
  * Locations are specified as decimal degrees with negative being South and West.
  * Altitude is a unit-less decimal and is up to the user to keep units constant.
+ * Extends the Location class so that a 2D location object may be extracted from the
+ * 3D Position object for tasks such as mapping.
  * 
  * @author Ethan Harstad
  */

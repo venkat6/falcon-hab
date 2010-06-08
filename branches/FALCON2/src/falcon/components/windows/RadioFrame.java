@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -24,7 +23,6 @@ public class RadioFrame extends JFrame {
 	private JTextArea logPane;
 	private JButton connect;
 	private JButton disconnect;
-	//private JTextArea registeredCalls;
 	private LabeledField txCall;
 	private JComboBox txPort;
 	

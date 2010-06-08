@@ -31,12 +31,14 @@ public class TrackingFrame extends JFrame implements ActionListener {
 	private static LabeledField primaryAltitude;
 	private static LabeledField primaryHeading;
 	private static LabeledField primaryAscent;
+	private static LabeledField primaryAzEl;
 	private static LabeledField primaryLastHeard;
 	private static JTextArea primaryLastPacket;
 	private static LabeledField secondaryLocation;
 	private static LabeledField secondaryAltitude;
 	private static LabeledField secondaryHeading;
 	private static LabeledField secondaryAscent;
+	private static LabeledField secondaryAzEl;
 	private static LabeledField secondaryLastHeard;
 	private static JTextArea secondaryLastPacket;
 	private static LabeledField recoveryLocation;
@@ -85,6 +87,9 @@ public class TrackingFrame extends JFrame implements ActionListener {
 		primaryAscent = new LabeledField("Ascent Rate:", 6, LabeledField.INLINE, false);
 		primaryAscent.setAlignmentX(LEFT_ALIGNMENT);
 		primaryPanel.add(primaryAscent);
+		primaryAzEl = new LabeledField("Az/El:", 6, LabeledField.INLINE, false);
+		primaryAzEl.setAlignmentX(LEFT_ALIGNMENT);
+		primaryPanel.add(primaryAzEl);
 		primaryLastHeard = new LabeledField("Last Heard:", 8, LabeledField.INLINE, false);
 		primaryLastHeard.setAlignmentX(LEFT_ALIGNMENT);
 		primaryPanel.add(primaryLastHeard);
@@ -109,6 +114,9 @@ public class TrackingFrame extends JFrame implements ActionListener {
 		secondaryAscent = new LabeledField("Ascent Rate:", 6, LabeledField.INLINE, false);
 		secondaryAscent.setAlignmentX(LEFT_ALIGNMENT);
 		secondaryPanel.add(secondaryAscent);
+		secondaryAzEl = new LabeledField("Az/El:", 6, LabeledField.INLINE, false);
+		secondaryAzEl.setAlignmentX(LEFT_ALIGNMENT);
+		secondaryPanel.add(secondaryAzEl);
 		secondaryLastHeard = new LabeledField("Last Heard:", 8, LabeledField.INLINE, false);
 		secondaryLastHeard.setAlignmentX(LEFT_ALIGNMENT);
 		secondaryPanel.add(secondaryLastHeard);
@@ -149,7 +157,7 @@ public class TrackingFrame extends JFrame implements ActionListener {
 	
 	public void updateCallsigns(ArrayList<Calls> callsigns) {
 		mCallsigns = callsigns;
-		//TODO
+		//TODO updateCallsigns
 	}
 
 }

@@ -3,6 +3,7 @@ package falcon.components.windows;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import falcon.FalconApp;
@@ -11,6 +12,7 @@ import falcon.components.gui.TitledPanel;
 
 public class PredictionFrame extends JFrame {
 	
+	private static JComboBox activeCallsign;
 	private static LabeledField timeBurst;
 	private static LabeledField burstLocation;
 	private static LabeledField burstAltitude;
@@ -30,6 +32,10 @@ public class PredictionFrame extends JFrame {
 		JPanel panel = new JPanel();
 		super.getContentPane().add(panel);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+		activeCallsign = new JComboBox(new String[] {"Primary", "Secondary"});
+		activeCallsign.setAlignmentX(LEFT_ALIGNMENT);
+		panel.add(activeCallsign);
+		//TODO PredictionFrame callsign listener
 		TitledPanel burstPanel = new TitledPanel("Burst");
 		burstPanel.setLayout(new BoxLayout(burstPanel, BoxLayout.PAGE_AXIS));
 		burstPanel.setAlignmentX(LEFT_ALIGNMENT);
