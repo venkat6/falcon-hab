@@ -12,9 +12,14 @@ import org.jdesktop.swingx.JXMapViewer;
 import org.jdesktop.swingx.mapviewer.GeoPosition;
 import org.jdesktop.swingx.painter.Painter;
 
+/**
+ * Handles the drawing of a slippy type map using any provided images times.
+ * Default is OpenStreetMap
+ * Parent class by SwingLabs/jDekstop
+ * 
+ * @author Ethan Harstad
+ */
 public class MapPanel extends JXMapKit {
-	
-	
 
 	public MapPanel(Location center) {
 		super();

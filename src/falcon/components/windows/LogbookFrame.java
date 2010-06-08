@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -90,6 +89,25 @@ public class LogbookFrame extends JFrame {
 		panel.add(entryPanel);
 		
 		pack();
+	}
+	
+	/**
+	 * Post a message from this client to the database
+	 * @param name
+	 * @param msg
+	 */
+	public void postMessage(String name, String msg) {
+		//TODO postMessage
+	}
+	
+	/**
+	 * Add a message to the logbook frame
+	 * @param name
+	 * @param msg
+	 * @param time
+	 */
+	public void addMessage(String name, String msg, String time) {
+		//TODO addMessage
 	}
 
 }

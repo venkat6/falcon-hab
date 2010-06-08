@@ -121,5 +121,12 @@ public class StatusFrame extends JFrame {
 		
 		super.pack();
 	}
+
+	/**
+	 * Some parameters have changed, update the GUI components
+	 */
+	public void update() {
+		//TODO update
+	}
 	
 }
