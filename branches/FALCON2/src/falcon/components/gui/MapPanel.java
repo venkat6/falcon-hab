@@ -3,8 +3,20 @@ package falcon.components.gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+
+import com.sun.image.codec.jpeg.*;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.LinkedList;
 import falcon.components.datatypes.Location;
 import org.jdesktop.swingx.JXMapKit;
@@ -19,7 +31,7 @@ import org.jdesktop.swingx.painter.Painter;
  * 
  * @author Ethan Harstad
  */
-public class MapPanel extends JXMapKit {
+public class MapPanel extends JXMapKit implements Printable {
 
 	public MapPanel(Location center) {
 		super();
@@ -50,6 +62,45 @@ public class MapPanel extends JXMapKit {
 	
 	public void drawMarker(Location point, Color color) {
 		
+	}
+	
+	@SuppressWarnings("restriction")
+	public void saveMapImage(File file) {
+		BufferedImage img = new BufferedImage(getSize().width, getSize().height, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = img.createGraphics();
+		paint(g);
+		try{
+			OutputStream out = new FileOutputStream(file);
+			JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
+			encoder.encode(img);
+			out.close();
+		} catch(Exception e) {
+			System.err.println("Could not save image!");
+			System.err.println(e);
+		}
+	}
+	
+	public void printMap() {
+		PrinterJob printJob = PrinterJob.getPrinterJob();
+		printJob.setPrintable(this);
+		if(printJob.printDialog()) {
+			try {
+				printJob.print();
+			} catch(PrinterException e) {
+				System.err.println("Error printing! " + e);
+			}
+		}
+	}
+
+	@Override
+	public int print(Graphics g, PageFormat pageFormat, int pageIndex) throws PrinterException {
+		if(pageIndex > 0) return(NO_SUCH_PAGE);
+		Graphics2D g2 = (Graphics2D)g;
+		g2.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
+		setDoubleBuffered(false);
+		paint(g2);
+		setDoubleBuffered(true);
+		return(PAGE_EXISTS);
 	}
 	
 }

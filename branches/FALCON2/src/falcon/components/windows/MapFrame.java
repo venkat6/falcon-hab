@@ -9,9 +9,12 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import falcon.FalconApp;
@@ -77,6 +80,24 @@ public class MapFrame extends JFrame {
 			}
 		});
 		settingsPanel.add(showSec);
+		JButton save = new JButton("Save");
+		final JFileChooser fc = new JFileChooser();
+		save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(fc.showSaveDialog(MapFrame.this) == JFileChooser.APPROVE_OPTION) {
+					File file = fc.getSelectedFile();
+					map.saveMapImage(file);
+				}
+			}
+		});
+		settingsPanel.add(save);
+		JButton print = new JButton("Print");
+		print.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				map.printMap();
+			}
+		});
+		settingsPanel.add(print);
 		panel.add(settingsPanel);
 		
 		super.pack();
