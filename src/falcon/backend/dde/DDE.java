@@ -1,4 +1,5 @@
 package falcon.backend.dde;
+//TODO Test DDE Implementation
 
 import com.google.code.jdde.client.ClientConversation;
 import com.google.code.jdde.client.DdeClient;
@@ -18,6 +19,12 @@ public class DDE {
 	private boolean connected;
 	private ClientConversation conv;
 	
+	/**
+	 * Connect to the DDE server with the given server name
+	 * and conversation topic.
+	 * @param serverName
+	 * @param topicName
+	 */
 	public DDE(String serverName, String topicName) {
 		try {
 			System.loadLibrary("jDDE");
@@ -41,9 +48,21 @@ public class DDE {
 		}
 	}
 	
-	public boolean sendCommand(String cmd) {
+	/**
+	 * Send the given message with the specified topic to
+	 * the DDE server.
+	 * @param convItem
+	 * @param msg
+	 * @return
+	 */
+	public boolean sendCommand(String convItem, String msg) {
 		if(!connected) return false;
-		//TODO
+		try {
+			conv.pokeAsync(convItem, msg.getBytes(), null);
+		} catch(Exception e) {
+			System.err.println("Problem sending DDE Command: " + msg);
+			e.printStackTrace();
+		}
 		return true;
 	}
 
