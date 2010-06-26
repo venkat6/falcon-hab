@@ -2,6 +2,7 @@ package falcon.components.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -25,7 +26,7 @@ public class StatusIndicator extends JButton {
 	private boolean mAlert = false;
 	private boolean mAlertMarginal = false;
 	private boolean mAlertAbnormal = true;
-	private static volatile boolean mFlash;
+	private static boolean mFlash = false;
 	private static Timer timer;
 	
 	// Status Constants
@@ -123,7 +124,7 @@ public class StatusIndicator extends JButton {
 	 * Puts the indicator into an alerted state (flashing).
 	 */
 	public void setAlert() {
-		// TODO add audio notification
+		Toolkit.getDefaultToolkit().beep();
 		mAlert = true;
 	}
 	

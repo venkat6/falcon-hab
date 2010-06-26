@@ -30,8 +30,8 @@ public class Serial implements SerialPortEventListener {
 	private Stack<byte[]> data;
 	private int messages = 0;
 	
-	public Serial(String name) {
-		connected = connect(name);
+	public Serial(String name, int baudRate) {
+		connected = connect(name, baudRate);
 	}
 	
 	public static HashSet<CommPortIdentifier> getAvailablePorts() {
@@ -54,13 +54,13 @@ public class Serial implements SerialPortEventListener {
 		return set;
 	}
 	
-	private boolean connect(String portName) {
+	private boolean connect(String portName, int baudRate) {
 		try {
 			CommPortIdentifier id = CommPortIdentifier.getPortIdentifier(portName);
 			if(id.getPortType() == CommPortIdentifier.PORT_SERIAL) return false;
 			CommPort port = id.open(this.getClass().getName(), 2000);
 			com = (SerialPort)port;
-			com.setSerialPortParams(57600,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
+			com.setSerialPortParams(baudRate, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
 			com.addEventListener(this);
 			com.notifyOnDataAvailable(true);
 			in = com.getInputStream();
