@@ -1,0 +1,13 @@
+#summary How to use FALCON - installing, configuring, using.
+
+= Installation =
+
+Coming soon
+
+= Configuration =
+
+Coming later
+
+= Usage =
+
+Coming even later
