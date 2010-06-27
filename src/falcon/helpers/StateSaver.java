@@ -1,4 +1,4 @@
-package falcon;
+package falcon.helpers;
 
 import java.awt.Rectangle;
 import java.io.File;
