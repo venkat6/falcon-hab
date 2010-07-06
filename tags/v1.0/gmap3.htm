@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+	<title>Flight and Logistics Console - FALCON</title>
+    <script src="http://maps.google.com/maps?file=api&v=2" type="text/javascript">
+    </script>
+  </head>
+  <body>
+    <script type="text/javascript">
+		var windowH;var windowW;var newMargin;
+		if(window.innerHeight){windowH = window.innerHeight;}else{windowH = parseInt(document.documentElement.clientHeight||document.body.clientHeight);}
+		if(window.innerHeight){windowW = window.innerWidth;}else{windowW = parseInt(document.documentElement.clientWidth)|| parseInt(document.body.clientWidth);}	
+		document.write("<div id=\"map\" style=\"width: "+(windowW-10)+"px; height: "+(windowH-20)+"px\"></div>")
+	</script>
+    
+    <script type="text/javascript">
+    //<![CDATA[
+
+function addMarker(point, options) {
+
+   var marker = new GMarker(point, options);
+   
+  return marker;
+
+}
+function toggleHidden(pPolygon) {
+
+	if(pPolygon.isHidden()) pPolygon.show();
+	else pPolygon.hide();
+
+}
+function setbCurr(lat,lon,alt){
+	bCurr_lat=lat;
+	bCurr_lng=lon;
+	bCurr_alt=alt;
+	bCurr.setLatLng( new GLatLng(lat, lon) );
+}
+function setburst(lat,lon,alt){
+	burst_lat=lat;
+	burst_lng=lon;
+	burst_alt=alt;
+	burst.setLatLng( new GLatLng(lat, lon) );
+}
+function setlaunch(lat,lon,alt){
+	launch_lat=lat;
+	launch_lng=lon;
+	launch_alt=alt;
+	launch.setLatLng( new GLatLng(lat, lon) );
+}
+function setrecCurr(lat,lon,alt){
+	recCurr_lat=lat;
+	recCurr_lng=lon;
+	recCurr_alt=alt;
+	recCurr.setLatLng( new GLatLng(lat, lon) );
+}
+function setpland(lat,lon,alt){
+	pland_lat=lat;
+	pland_lng=lon;
+	pland_alt=alt;
+	pland.setLatLng( new GLatLng(lat, lon) );
+}
+function buildpredline(posArr, color){
+	//posArr is 2D, rows are GPS entries, first column is lat, 2nd is lon. Example below.
+	//posArr = new Array([42.026908, -93.65324],[42.126908, -93.55324]);
+		
+	gVert = new Array(posArr.length);
+	for(i=0;i<posArr.length;i++){
+		gVert[i]=new GLatLng(posArr[i][0], posArr[i][1]);
+	}
+	map.removeOverlay(predline);
+	predline = new GPolyline(gVert, color, 3, .6);
+//	predline = new GPolyline(gVert, "#FF0000", 3, .6);
+	//red line
+	map.addOverlay(predline);	
+	predline.show();
+}
+
+function buildballoonline(posArr, color){
+	gVert = new Array(posArr.length);
+	for(i=0;i<posArr.length;i++){
+		gVert[i]=new GLatLng(posArr[i][0], posArr[i][1]);
+	}
+	map.removeOverlay(balloonline);
+	balloonline = new GPolyline(gVert, color, 3, .6);
+//	balloonline = new GPolyline(gVert, "#151B8D", 3, .6);
+	map.addOverlay(balloonline);	
+	balloonline.show();
+}
+function buildrecline(posArr, color){
+	gVert = new Array(posArr.length);
+	for(i=0;i<posArr.length;i++){
+		gVert[i]=new GLatLng(posArr[i][0], posArr[i][1]);
+	}
+	map.removeOverlay(recline);
+	recline = new GPolyline(gVert, color, 3, .6);
+//	recline = new GPolyline(gVert, "#008080", 3, .6);
+	//teal line
+	map.addOverlay(recline);	
+	recline.show();
+}
+function buildorigpredline(posArr, color){
+	gVert = new Array(posArr.length);
+	for(i=0;i<posArr.length;i++){
+		gVert[i]=new GLatLng(posArr[i][0], posArr[i][1]);
+	}
+	map.removeOverlay(origpredline);
+	origpredline = new GPolyline(gVert, color, 3, .6);
+	map.addOverlay(origpredline);	
+	origpredline.show();
+}
+
+
+var bCurr_lat = "";
+var bCurr_lng = "";
+var bCurr_alt = "";
+var burst_lat = "";
+var burst_lng = "";
+var burst_alt = "";
+var launch_lat = "";
+var launch_lng = "";
+var launch_alt = "";
+var recCurr_lat = "";
+var recCurr_lng = "";
+var recCurr_alt = "";
+var pland_lat = "";
+var pland_lng = "";
+var pland_alt = "";
+
+var rIcon = new GIcon();
+rIcon.shadow = "http://www.google.com/mapfiles/ms/micons/truck.shadow.png";
+rIcon.image = "http://maps.google.com/mapfiles/ms/micons/truck.png";
+rIcon.iconSize = new GSize(32, 32);
+rIcon.shadowSize = new GSize(59, 32);
+rIcon.iconAnchor = new GPoint(15, 25);
+rIcon.infoWindowAnchor = new GPoint(59, 0);
+rIcon.infoShadowAnchor = new GPoint(59, 0);
+
+var cpoint = new GLatLng(42.026908, -93.65324);
+
+var map = new GMap2(document.getElementById("map"));
+map.enableScrollWheelZoom();
+map.setCenter(new GLatLng(42.027611, -93.652995), 9);
+
+var balloonline = new GPolyline([cpoint], "#151B8D", 3, .6);
+map.addOverlay(balloonline);
+balloonline.hide();
+
+var predline = new GPolyline([new GLatLng(42.026908, -93.65324)], "#151B8D", 3, .6);
+map.addOverlay(predline);
+predline.hide();
+
+var recline = new GPolyline([new GLatLng(42.026908, -93.65324)], "#151B8D", 3, .6);
+map.addOverlay(recline);
+recline.hide();
+
+var origpredline = new GPolyline([new GLatLng(42.026908, -93.65324)], "#151B8D", 3, .6);
+map.addOverlay(predline);
+predline.hide();
+
+
+var bCurr = new addMarker(cpoint, {title: "Balloon Location"});
+map.addOverlay(bCurr);
+bCurr.hide();
+GEvent.addListener(bCurr, "click",
+      function() { bCurr.openInfoWindowHtml(
+	"Balloon Position: <br />" + 
+	"&nbsp;&nbsp;Latitude: " + bCurr_lat + 
+	"<br />&nbsp;&nbsp;Longitude: "+ bCurr_lng +
+	"<br />&nbsp;&nbsp;Altitude: "+ bCurr_alt
+      ); }
+);
+
+var burst = new addMarker(cpoint, G_PAUSE_ICON);
+map.addOverlay(burst);
+burst.hide();
+GEvent.addListener(burst, "click",
+      function() { burst.openInfoWindowHtml(
+	"Burst Position: <br />" + 
+	"&nbsp;&nbsp;Latitude: " + burst_lat + 
+	"<br />&nbsp;&nbsp;Longitude: "+ burst_lng +
+	"<br />&nbsp;&nbsp;Altitude: "+ burst_alt
+      ); }
+);
+
+var launch = new addMarker(cpoint, G_START_ICON);
+map.addOverlay(launch);
+launch.hide();
+GEvent.addListener(launch, "click",
+      function() { launch.openInfoWindowHtml(
+	"Launch Position: <br />" + 
+	"&nbsp;&nbsp;Latitude: " + launch_lat + 
+	"<br />&nbsp;&nbsp;Longitude: "+ launch_lng +
+	"<br />&nbsp;&nbsp;Altitude: "+ launch_alt
+      ); }
+);
+
+var recCurr = new addMarker(cpoint, {icon: rIcon, title: "Recovery Team"});
+map.addOverlay(recCurr);
+recCurr.hide();
+GEvent.addListener(recCurr, "click",
+      function() { recCurr.openInfoWindowHtml(
+	"Recovery Position: <br />" + 
+	"&nbsp;&nbsp;Latitude: " + recCurr_lat + 
+	"<br />&nbsp;&nbsp;Longitude: "+ recCurr_lng +
+	"<br />&nbsp;&nbsp;Altitude: "+ recCurr_alt
+      ); }
+);
+
+var pland = new addMarker(cpoint, {icon: G_END_ICON, title: "Predicted Landing"});
+map.addOverlay(pland);
+pland.hide();
+GEvent.addListener(pland, "click",
+      function() { pland.openInfoWindowHtml(
+	"Predicted Landing: <br />" + 
+	"&nbsp;&nbsp;Latitude: " + pland_lat + 
+	"<br />&nbsp;&nbsp;Longitude: "+ pland_lng +
+	"<br />&nbsp;&nbsp;Altitude: "+ pland_alt
+      ); }
+);
+
+
+
+    map.addControl(new GLargeMapControl());
+    map.addControl(new GMapTypeControl());
+
+    //]]>
+    </script>
+  </body>
+</html>
