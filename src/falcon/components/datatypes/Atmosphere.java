@@ -4,6 +4,8 @@ package falcon.components.datatypes;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -66,6 +68,9 @@ public class Atmosphere {
 			base.add(new AtmosphereState(p, alt, t, dp, dir, s));	
 		}
 		
+		//Sort the list
+		Collections.sort(base, new heightOrder());
+		
 		//TODO determine interpolation
 		
 		ok = true;
@@ -76,7 +81,7 @@ public class Atmosphere {
 	 * @param a
 	 * @return
 	 */
-	private double toGeopotential(double a) {
+	private static double toGeopotential(double a) {
 		return (6378100 * a) / (6378100 + a);
 	}
 
@@ -126,4 +131,16 @@ class AtmosphereBase {
 		dDir = dd;
 	}
 	
+}
+
+class heightOrder implements Comparator<AtmosphereState> {
+	public int compare(AtmosphereState x, AtmosphereState y) {
+		if(x.altitude == y.altitude) {
+			return 0;
+		} else if(x.altitude < y.altitude) {
+			return -1;
+		} else {
+			return 1;
+		}
+	}
 }

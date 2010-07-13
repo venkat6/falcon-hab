@@ -27,8 +27,6 @@ public class FalconApp extends JFrame {
 	
 	static JFrame mainWindow;
 	static JMenuBar cMenuBar;
-	static RadioFrame radioWindow;
-	static JCheckBoxMenuItem cWindowRadio;
 	static TrackingFrame trackingWindow;
 	static JCheckBoxMenuItem cWindowTracking;
 	static PredictionFrame predictionWindow;
@@ -60,8 +58,6 @@ public class FalconApp extends JFrame {
 		mainWindow.setJMenuBar(createMenuBar());
 		
 		// Build other windows and restore state information
-		radioWindow = new RadioFrame();
-		cWindowRadio.setState(StateSaver.recallWindowState(radioWindow, new File("state.ini")));
 		trackingWindow = new TrackingFrame();
 		cWindowTracking.setState(StateSaver.recallWindowState(trackingWindow, new File("state.ini")));
 		predictionWindow = new PredictionFrame();
@@ -99,13 +95,6 @@ public class FalconApp extends JFrame {
 		
 		JMenu cWindowMenu = new JMenu("Window");
 		cMenuBar.add(cWindowMenu);
-		cWindowRadio = new JCheckBoxMenuItem("Radio");
-		cWindowRadio.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				radioWindow.setVisible(e.getStateChange() == ItemEvent.SELECTED);
-			}
-		});
-		cWindowMenu.add(cWindowRadio);
 		cWindowTracking = new JCheckBoxMenuItem("Tracking");
 		cWindowTracking.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -172,8 +161,6 @@ public class FalconApp extends JFrame {
 			cWindowStatus.setState(false);
 		} else if(name.equals("Map")) {
 			cWindowMap.setState(false);
-		} else if(name.equals("Radio")) {
-			cWindowRadio.setState(false);
 		}
 	}
 	
@@ -191,7 +178,6 @@ public class FalconApp extends JFrame {
 				System.err.println("Could not open file for window state saving");
 			}
 			StateSaver.saveWindowState(mainWindow, file);
-			StateSaver.saveWindowState(radioWindow, file);
 			StateSaver.saveWindowState(mapWindow, file);
 			StateSaver.saveWindowState(predictionWindow, file);
 			StateSaver.saveWindowState(trackingWindow, file);
