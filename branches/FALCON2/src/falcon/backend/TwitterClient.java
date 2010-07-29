@@ -1,5 +1,7 @@
 package falcon.backend;
 
+//TODO Switch to asynchronous and maybe oAuth?
+
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
