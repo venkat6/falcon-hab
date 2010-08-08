@@ -39,9 +39,9 @@ public class FalconApp extends JFrame {
 	static JCheckBoxMenuItem cWindowLog;
 	static LogPanel terminal;
 
-	public static void main(String[] args) {
+	private static void main(String[] args) {
 		
-		createWindow();
+		//createWindow();
 		
 	}
 	
