@@ -14,6 +14,11 @@ public class Launcher {
 
 	private static JFrame window;
 	
+	private static FalconApp falcon = null;
+	private static PredictionApp prediction =  null;
+	private static ArchiveApp archive = null;
+	private static DatabaseManager manager = null;
+	
 	private static void createWindow() {
 		window = new JFrame("FALCON Launcher");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -22,7 +27,9 @@ public class Launcher {
 		predictionButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				if(prediction == null) {
+					prediction = new PredictionApp();
+				}
 			}
 		});
 		
@@ -30,7 +37,9 @@ public class Launcher {
 		trackingButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				if(falcon == null) {
+					falcon = new FalconApp();
+				}
 			}
 		});
 		
@@ -38,7 +47,19 @@ public class Launcher {
 		archiveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				if(archive == null) {
+					archive = new ArchiveApp();
+				}
+			}
+		});
+		
+		JButton databaseButton = new JButton("Database Manager");
+		databaseButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(manager == null) {
+					manager = new DatabaseManager();
+				}
 			}
 		});
 		
@@ -46,8 +67,15 @@ public class Launcher {
 		window.getContentPane().add(predictionButton);
 		window.getContentPane().add(trackingButton);
 		window.getContentPane().add(archiveButton);
+		window.getContentPane().add(databaseButton);
 		window.pack();
 		window.setVisible(true);
+	}
+	
+	public static void closing(JFrame src) {
+		if(src.equals(falcon)) {
+			falcon = null;
+		}
 	}
 	
 	public static void main(String args[]) {
