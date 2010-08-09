@@ -11,9 +11,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
-
 import com.sun.image.codec.jpeg.*;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -64,7 +62,6 @@ public class MapPanel extends JXMapKit implements Printable {
 		
 	}
 	
-	@SuppressWarnings("restriction")
 	public void saveMapImage(File file) {
 		BufferedImage img = new BufferedImage(getSize().width, getSize().height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = img.createGraphics();

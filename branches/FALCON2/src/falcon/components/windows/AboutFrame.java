@@ -1,6 +1,5 @@
 package falcon.components.windows;
 
-import falcon.FalconApp;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -17,7 +16,7 @@ public class AboutFrame extends JFrame {
 	public AboutFrame() {
 		super("About FALCON");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		JLabel versionText = new JLabel("Version: " + FalconApp.VERSION);
+		JLabel versionText = new JLabel("Version: " + falcon.Launcher.VERSION);
 		JLabel aboutText = new JLabel("<html>" +
 				"<h2>FALCON (Flight And Logistics CONtrol)</h2>" +
 				"is an open source project created by SSCL at Iowa State University<br>" +

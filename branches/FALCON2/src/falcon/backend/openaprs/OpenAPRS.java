@@ -21,7 +21,7 @@ public class OpenAPRS implements Runnable {
 	//Parameter Fields
 	private String host = "dcc.openaprs.net";
 	private int port = 2620;
-	private String client = "Falcon-" + falcon.FalconApp.VERSION;
+	private String client = "Falcon-" + falcon.Launcher.VERSION;
 	private boolean debug = false;
 	
 	private Socket socket;

@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 public class Launcher {
+	
+	public static final String VERSION = "PRE-ALPHA";
 
 	private static JFrame window;
 	
