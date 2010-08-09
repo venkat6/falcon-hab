@@ -31,7 +31,7 @@ public class MapFrame extends JFrame {
 		super.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				setVisible(false);
-				FalconApp.windowClosing("Map");
+				//FalconApp.windowClosing("Map");
 			}
 		});
 		super.addComponentListener(new ComponentAdapter() {
