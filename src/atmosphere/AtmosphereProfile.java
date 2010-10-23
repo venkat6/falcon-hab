@@ -1,5 +1,8 @@
 package atmosphere;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class AtmosphereProfile {
 	
 	protected int mStartTime;
@@ -9,7 +12,7 @@ public class AtmosphereProfile {
 	protected double mLon;
 	protected double mResolution = 0.5;
 	
-	//private ArrayList<>
+	private ArrayList<AtmosphereState> data = new ArrayList<AtmosphereState>(5);
 	
 	public boolean isValid(int time, double lat, double lon) {
 		if((time >= mStartTime) && ((time <= mEndTime) || (mEndTime < 0))) {
@@ -18,6 +21,11 @@ public class AtmosphereProfile {
 			}
 		}
 		return false;
+	}
+	
+	public void addData(double pressure, int altitude, double temp, double dewPoint, int windDir, double windSpeed) {
+		data.add(new AtmosphereState(pressure, altitude, temp, dewPoint, windDir, windSpeed));
+		Collections.sort(data);
 	}
 
 }
