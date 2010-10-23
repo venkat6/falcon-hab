@@ -1,21 +1,21 @@
-package Atmosphere;
+package atmosphere;
 
 public class AtmosphereFactory {
 	
-	public static AtmosphereModel downloadGfsModel(int time, float lat, float lon) {
-		int startTime = time; //FIXME
-		int endTime = time; //FIXME
-		AtmosphereState startState = parseGfsProfile(downloadGfsProfile(startTime, lat, lon));
-		AtmosphereState endState = parseGfsProfile(downloadGfsProfile(endTime, lat, lon));
+	public static AtmosphereModel getGfsModel(int time, double lat, double lon) {
+		int startTime = (time/AtmosphereProfile.mTimeStep)*AtmosphereProfile.mTimeStep;
+		int endTime = ((time/AtmosphereProfile.mTimeStep)+1)*AtmosphereProfile.mTimeStep;
+		AtmosphereProfile startState = parseGfsProfile(getGfsProfile(startTime, lat, lon));
+		AtmosphereProfile endState = parseGfsProfile(getGfsProfile(endTime, lat, lon));
 		
 		AtmosphereModel model = new AtmosphereModel();
 		//TODO
 		return model;
 	}
 	
-	public static String downloadGfsProfile(int time, float lat, float lon) {
+	public static String getGfsProfile(int time, double lat, double lon) {
 		//TODO
-		// get correct time value
+		time = (time/AtmosphereProfile.mTimeStep)*AtmosphereProfile.mTimeStep;
 		// connect to url
 		// download data
 		// put data in file
@@ -24,8 +24,8 @@ public class AtmosphereFactory {
 		return filename;
 	}
 	
-	public static AtmosphereState parseGfsProfile(String filename) {
-		AtmosphereState atmo = new AtmosphereState();
+	public static AtmosphereProfile parseGfsProfile(String filename) {
+		AtmosphereProfile atmo = new AtmosphereProfile();
 		
 		//TODO
 		
