@@ -3,13 +3,13 @@ package atmosphere;
 public class AtmosphereState implements Comparable<AtmosphereState> {
 	
 	public double pressure;
-	public int altitude;
+	public double altitude;
 	public double temp;
 	public double dewPoint;
-	public int windDir;
+	public double windDir;
 	public double windSpeed;
 	
-	public AtmosphereState(double p, int a, double t, double dp, int dir, double speed) {
+	public AtmosphereState(double p, double a, double t, double dp, double dir, double speed) {
 		pressure = p;
 		altitude = a;
 		temp = t;
@@ -20,9 +20,9 @@ public class AtmosphereState implements Comparable<AtmosphereState> {
 	
 	@Override
 	public int compareTo(AtmosphereState x) {
-		if(pressure < x.pressure) {
+		if(altitude < x.altitude) {
 			return -1;
-		} else if(pressure > x.pressure) {
+		} else if(altitude > x.altitude) {
 			return 1;
 		}
 		return 0;
