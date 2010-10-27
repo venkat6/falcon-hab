@@ -4,8 +4,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
+/**
+ * A class to extract the state of the atmosphere at any point given a discrete sounding.
+ * 
+ * @author Ethan Harstad
+ * Space Systems and Controls Lab
+ * http://www.sscl.iastate.edu
+ */
 public class AtmosphereProfile {
 	
+	// Profile specifications
 	protected int mStartTime;
 	protected int mEndTime;
 	protected static final int mTimeStep = 10800;
@@ -13,9 +21,18 @@ public class AtmosphereProfile {
 	protected double mLon;
 	protected double mResolution = 0.5;
 	
+	// Discrete sample data
 	private ArrayList<AtmosphereState> data = new ArrayList<AtmosphereState>(5);
+	// Lapse rates of the above data
 	private ArrayList<AtmosphereState> roc = new ArrayList<AtmosphereState>(5);
 	
+	/**
+	 * See if the model is valid at the given time and location.
+	 * @param time Unix time to check
+	 * @param lat Latitude of the point to check
+	 * @param lon Longitude of the point to check
+	 * @return
+	 */
 	public boolean isValid(int time, double lat, double lon) {
 		if((time >= mStartTime) && ((time <= mEndTime) || (mEndTime < 0))) {
 			if((Math.abs(lat-mLat) <= mResolution) && (Math.abs(lon-mLon) <= mResolution)) {
@@ -25,7 +42,16 @@ public class AtmosphereProfile {
 		return false;
 	}
 	
-	public void addData(double pressure, double altitude, double temp, double dewPoint, double windDir, double windSpeed) {
+	/**
+	 * Add a discrete sample to the profile
+	 * @param pressure
+	 * @param altitude
+	 * @param temp
+	 * @param dewPoint
+	 * @param windDir
+	 * @param windSpeed
+	 */
+	protected void addData(double pressure, double altitude, double temp, double dewPoint, double windDir, double windSpeed) {
 		data.add(new AtmosphereState(pressure, altitude, temp, dewPoint, windDir, windSpeed));	// store the new data point
 		Collections.sort(data);	// sort the data with increasing altitude
 		Iterator<AtmosphereState> itr = data.iterator();
@@ -55,6 +81,11 @@ public class AtmosphereProfile {
 		}
 	}
 	
+	/**
+	 * Get the state of the model at the given altitude and time
+	 * @param alt Altitude in the units used to create the model
+	 * @return
+	 */
 	public AtmosphereState getAtAltitude(double altitude) {
 		Iterator<AtmosphereState> itr = data.iterator();
 		AtmosphereState base = itr.next();
