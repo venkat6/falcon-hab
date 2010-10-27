@@ -10,6 +10,8 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class AtmosphereFactory {
@@ -28,6 +30,7 @@ public class AtmosphereFactory {
 		// connect to url
 		String address = 	"http://rucsoundings.noaa.gov/get_soundings.cgi?data_source=GFS;airport="+lat+","+lon+
 							";hydrometeors=false&startSecs="+time+"&endSecs="+(time+1);
+		//System.out.println(address);
 		URL url;
 		InputStream is = null;
 		InputStreamReader isr = null;
@@ -43,18 +46,80 @@ public class AtmosphereFactory {
 		}
 		isr = new InputStreamReader(is);
 		BufferedReader br = new BufferedReader(isr);
+		ArrayList<String> datas = new ArrayList<String>();
+		// read data and format
+		String line = null;
+		int hour, day, month, year;
+		int i = 0;
+		try {
+			while((line = br.readLine()) != null) {
+				i++;
+				if(i == 1) {
+					continue;	// Discard the first line
+				}
+				Scanner parser = new Scanner(line);
+				if(parser.hasNextInt()) { // Data line
+					int type = parser.nextInt();
+					if(type == 1) {	// Station ID Line
+						parser.next();
+						parser.next();
+						lat = parser.nextDouble();
+						lon = -parser.nextDouble();
+						continue;
+					} else if(type == 4) {
+						double p = parser.nextInt()/10;			// value is in tenths
+						int h = parser.nextInt();
+						double t = parser.nextInt()/10;			// value is in tenths
+						double dp = parser.nextInt()/10;		// value is in tenths
+						int dir = parser.nextInt();
+						double spd = parser.nextInt()*0.51444;	// convert knots to m/s
+						datas.add(p+"\t"+h+"\t"+t+"\t"+dp+"\t"+dir+"\t"+spd);
+					} else if(type == 9) {	// surface level (might be unreliable)
+						double p = parser.nextInt()/10;			// value is in tenths
+						int h = parser.nextInt();
+						double t = parser.nextInt()/10;			// value is in tenths
+						double dp = parser.nextInt()/10;		// value is in tenths
+						int dir = parser.nextInt();
+						double spd = parser.nextInt()*0.51444;	// convert knots to m/s
+						datas.add(p+" "+h+" "+t+" "+dp+" "+dir+" "+spd);
+					} else {
+						continue;
+					}
+				} else {
+					if(!parser.hasNext()) continue;
+					String blah = parser.next();		// See if should be discarded
+					if(blah.equals("CAPE")) continue;
+					if(parser.hasNextInt()) {
+						hour = parser.nextInt();
+						day = parser.nextInt();
+						String temp = parser.next();
+						year = parser.nextInt();
+						continue;
+					} else {
+						continue;
+					}
+				}
+			}
+		} catch (Exception e) {
+			System.err.println("Problem reading URL stream!");
+			e.printStackTrace();
+		}
 		// create a file to store the data
-		String filename = Integer.toString(time/1000)+"_"+Integer.toString((int)(lat*100))+"_"+Integer.toString((int)(lon*100))+".dat";
+		String filename = "winds\\" + Integer.toString(time)+"_"+Integer.toString((int)(lat*100))+"_"+Integer.toString((int)(lon*100))+".dat";
 		FileOutputStream out;
 		PrintStream p = null;
 		try {
 			out = new FileOutputStream(filename);
 			p = new PrintStream(out);
-		} catch(Exception e) {
+		} catch(FileNotFoundException e) {
+			System.err.println("Problem opening file: " + filename);
 			e.printStackTrace();
 		}
-		// read data, format and store to file
-		//TODO
+		// write to the file
+		Iterator<String> itr = datas.iterator();
+		while(itr.hasNext()) {
+			p.println(itr.next());
+		}
 		// close the file
 		p.close();
 		// parse the file and return the profile
