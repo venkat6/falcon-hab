@@ -1,21 +1,32 @@
 package atmosphere;
 
+/**
+ * A class that extends the functionality of AtmosphereProfile by using two profiles to interpolate based on time.
+ * 
+ * @author Ethan Harstad
+ * Space Systems and Controls Lab
+ * http://www.sscl.iastate.edu
+ */
 public class AtmosphereModel {
 	
+	// Model specifications
 	protected int mStartTime;
 	protected int mEndTime;
 	protected double mLat;
 	protected double mLon;
 	protected double mResolution = 0.5;
 	
-	private AtmosphereProfile start;
-	private AtmosphereProfile end;
+	// Start and end states of the model
+	protected AtmosphereProfile start;
+	protected AtmosphereProfile end;
 	
-	public AtmosphereModel(AtmosphereProfile startProfile, AtmosphereProfile endProfile) {
-		start = startProfile;
-		end = endProfile;
-	}
-	
+	/**
+	 * See if the model is valid at the given time and location.
+	 * @param time Unix time to check
+	 * @param lat Latitude of the point to check
+	 * @param lon Longitude of the point to check
+	 * @return
+	 */
 	public boolean isValid(int time, double lat, double lon) {
 		if((time >= mStartTime) && ((time <= mEndTime) || (mEndTime < 0))) {
 			if((Math.abs(lat-mLat) <= mResolution) && (Math.abs(lon-mLon) <= mResolution)) {
@@ -25,6 +36,12 @@ public class AtmosphereModel {
 		return false;
 	}
 	
+	/**
+	 * Get the state of the model at the given altitude and time
+	 * @param alt Altitude in the units used to create the model
+	 * @param time Unix time
+	 * @return
+	 */
 	public AtmosphereState getAtAltitude(double alt, int time) {
 		AtmosphereState s = start.getAtAltitude(alt);
 		AtmosphereState e = end.getAtAltitude(alt);

@@ -14,17 +14,46 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
+/**
+ * A factory class to generate atmosphere objects
+ * 
+ * @author Ethan Harstad
+ * Space Systems and Controls Lab
+ * http://www.sscl.iastate.edu
+ */
 public class AtmosphereFactory {
 	
+	/**
+	 * Generate an AtmosphereModel object and return it. Use this method instead of the AtmosphereModel constructor.
+	 * 
+	 * @param time A time that is guaranteed to be included in the model
+	 * @param lat Center latitude of the model
+	 * @param lon Center longitude of the model
+	 * @return
+	 */
 	public static AtmosphereModel getGfsModel(int time, double lat, double lon) {
 		int startTime = (time/AtmosphereProfile.mTimeStep)*AtmosphereProfile.mTimeStep;
 		int endTime = ((time/AtmosphereProfile.mTimeStep)+1)*AtmosphereProfile.mTimeStep;
 		AtmosphereProfile startState = getGfsProfile(startTime, lat, lon);
 		AtmosphereProfile endState = getGfsProfile(endTime, lat, lon);
-		
-		return new AtmosphereModel(startState, endState);
+		AtmosphereModel atmo = new AtmosphereModel();
+		atmo.start = startState;
+		atmo.end = endState;
+		atmo.mStartTime = startTime;
+		atmo.mEndTime = endTime;
+		atmo.mLat = lat;
+		atmo.mLon = lon;
+		return atmo;
 	}
 	
+	/**
+	 * Generate an AtmosphereProfile object and return it. Use this method instead of the AtmosphereProfile constructor.
+	 * 
+	 * @param time A time the is guaranteed to be included in the profile
+	 * @param lat Center latitude of the model
+	 * @param lon Center longitude of the model
+	 * @return
+	 */
 	public static AtmosphereProfile getGfsProfile(int time, double lat, double lon) {
 		time = (time/AtmosphereProfile.mTimeStep)*AtmosphereProfile.mTimeStep;
 		// connect to url
@@ -49,7 +78,8 @@ public class AtmosphereFactory {
 		ArrayList<String> datas = new ArrayList<String>();
 		// read data and format
 		String line = null;
-		int hour, day, month, year;
+		int hour = 0, day = 0, year = 0;
+		String month = null;
 		int i = 0;
 		try {
 			while((line = br.readLine()) != null) {
@@ -92,7 +122,7 @@ public class AtmosphereFactory {
 					if(parser.hasNextInt()) {
 						hour = parser.nextInt();
 						day = parser.nextInt();
-						String temp = parser.next();
+						month = parser.next();
 						year = parser.nextInt();
 						continue;
 					} else {
@@ -105,7 +135,7 @@ public class AtmosphereFactory {
 			e.printStackTrace();
 		}
 		// create a file to store the data
-		String filename = "winds\\" + Integer.toString(time)+"_"+Integer.toString((int)(lat*100))+"_"+Integer.toString((int)(lon*100))+".dat";
+		String filename = "winds\\" + Integer.toString(year)+ month + Integer.toString(day)+ "-" + Integer.toString(hour) +"_"+Integer.toString((int)(lat*100))+"_"+Integer.toString((int)(lon*100))+".dat";
 		FileOutputStream out;
 		PrintStream p = null;
 		try {
@@ -123,9 +153,21 @@ public class AtmosphereFactory {
 		// close the file
 		p.close();
 		// parse the file and return the profile
-		return parseGfsProfile(filename);
+		AtmosphereProfile atmo = parseGfsProfile(filename);
+		atmo.mStartTime = time;
+		atmo.mEndTime = time + AtmosphereProfile.mTimeStep;
+		atmo.mLat = lat;
+		atmo.mLon = lon;
+		return atmo;
 	}
 	
+	/**
+	 * Parse a GFS wind profile and return an AtmosphereProfile created from it.
+	 * It is recommended to use downloadGfsProfile instead.
+	 * 
+	 * @param filename The filename of the wind profile file
+	 * @return
+	 */
 	public static AtmosphereProfile parseGfsProfile(String filename) {
 		AtmosphereProfile atmo = new AtmosphereProfile();
 		FileInputStream is = null;
