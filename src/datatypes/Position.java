@@ -19,8 +19,20 @@ public class Position extends Location {
 		return location;
 	}
 	
+	public void setAltitude(double altitude) {
+		alt = altitude;
+	}
+	
 	public double getAltitude() {
 		return alt;
+	}
+	
+	public void setLatitude(double latitude) {
+		location.setLatitude(latitude);
+	}
+	
+	public void setLongitude(double longitude) {
+		location.setLongitude(longitude);
 	}
 	
 	public double getLatitude() {

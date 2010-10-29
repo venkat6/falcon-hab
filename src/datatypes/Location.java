@@ -15,6 +15,14 @@ public class Location {
 		lon = longitude;
 	}
 	
+	public void setLatitude(double latitude) {
+		lat = latitude;
+	}
+	
+	public void setLongitude(double longitude) {
+		lon = longitude;
+	}
+	
 	public double getLatitude() {
 		return lat;
 	}
