@@ -11,6 +11,8 @@ public class Spacecraft {
 	public static final double AIR = 0.02896;			// kg/mol
 	public static final double g = 9.807;				// accel due to gravity m/s^2
 	public static final double R = 8.314472;			// gas constant J/(K*mol)
+	public static final double a = 6378137;				// equatorial radius (m)
+	public static final double b = 6356752;				// polar radius (m)
 	
 	// Initial values
 	private double mLiftingGas;		// atomic density of lifting gas
@@ -97,7 +99,19 @@ public class Spacecraft {
 		double vY = ambient.windSpeed * Math.cos(angle);			// Calculate North/South velocity
 		double dX = vX * timeStep;									// Calculate East/West displacement
 		double dY = vY * timeStep;									// Calculate North/South displacement
-		//TODO calculate lat/lon change
+		// Compute change in latitude and longitude
+		double lat = position.getLatitude();
+		double x = Math.pow(a*Math.cos(Math.toRadians(lat)),2);		// Compute denominator for efficiency
+		x += Math.pow(b*Math.sin(Math.toRadians(lat)), 2);			// second term
+		double RN = Math.pow(a*b,2)/Math.pow(x,1.5);				// Local radius of N/S curvature
+		double latitude = (RN + altitude) * (Math.PI / 180.0);		// Calculate length of a degree of latitude
+		double dlat = dY / latitude;								// Calculate the change in latitude
+		lat = position.getLatitude() + dlat;						// Calculate new latitude
+		position.setLatitude(lat);									// Update latitude of payload
+		double RE = (a*a) / Math.pow(x, 0.5);						// Local radius of E/W curvature
+		double longitude = (RE + altitude)*Math.cos(lat)*(Math.PI / 180.0);	// Calculate length of a degree of longitude
+		double dlon = dX / longitude;								// Calculate change in longitude
+		position.setLongitude(position.getLongitude() + dlon);		// Update longitude of payload
 		// Update the gas properties
 		ambient = atmo.getAtAltitude(altitude, (int)currentTime);	// Update ambient conditions
 		gasVolume = ((gasMass / mLiftingGas) * R * ambient.temp) / ambient.pressure; // Determine gas volume
@@ -115,6 +129,20 @@ public class Spacecraft {
 	
 	public double getTime() {
 		return currentTime;
+	}
+	
+	public double[] getProperties() {
+		int size = 10;
+		double[] properties = new double[size];
+		for(int i = 0; i < size; i++) properties[i] = 0;
+		properties[0] = currentTime;
+		properties[1] = position.getLatitude();
+		properties[2] = position.getLongitude();
+		properties[3] = position.getAltitude();
+		properties[4] = currentMass;
+		properties[5] = netLift;
+		// More properties here...
+		return properties;
 	}
 	
 }
