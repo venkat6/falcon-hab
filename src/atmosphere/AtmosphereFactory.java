@@ -59,7 +59,6 @@ public class AtmosphereFactory {
 		// connect to url
 		String address = 	"http://rucsoundings.noaa.gov/get_soundings.cgi?data_source=GFS;airport="+lat+","+lon+
 							";hydrometeors=false&startSecs="+time+"&endSecs="+(time+1);
-		//System.out.println(address);
 		URL url;
 		InputStream is = null;
 		InputStreamReader isr = null;
@@ -97,18 +96,18 @@ public class AtmosphereFactory {
 						lon = -parser.nextDouble();
 						continue;
 					} else if(type == 4) {
-						double p = parser.nextInt()/10;			// value is in tenths
+						double p = parser.nextInt()/10.0;			// value is in tenths
 						int h = parser.nextInt();
-						double t = parser.nextInt()/10;			// value is in tenths
-						double dp = parser.nextInt()/10;		// value is in tenths
+						double t = parser.nextInt()/10.0;			// value is in tenths
+						double dp = parser.nextInt()/10.0;		// value is in tenths
 						int dir = parser.nextInt();
 						double spd = parser.nextInt()*0.51444;	// convert knots to m/s
 						datas.add(p+"\t"+h+"\t"+t+"\t"+dp+"\t"+dir+"\t"+spd);
 					} else if(type == 9) {	// surface level (might be unreliable)
-						double p = parser.nextInt()/10;			// value is in tenths
+						double p = parser.nextInt()/10.0;			// value is in tenths
 						int h = parser.nextInt();
-						double t = parser.nextInt()/10;			// value is in tenths
-						double dp = parser.nextInt()/10;		// value is in tenths
+						double t = parser.nextInt()/10.0;			// value is in tenths
+						double dp = parser.nextInt()/10.0;		// value is in tenths
 						int dir = parser.nextInt();
 						double spd = parser.nextInt()*0.51444;	// convert knots to m/s
 						datas.add(p+" "+h+" "+t+" "+dp+" "+dir+" "+spd);
