@@ -45,7 +45,9 @@ public class AtmosphereModel {
 	public AtmosphereState getAtAltitude(double alt, int time) {
 		AtmosphereState s = start.getAtAltitude(alt);
 		AtmosphereState e = end.getAtAltitude(alt);
-		double x = (time - mStartTime)/(mStartTime - mEndTime);
+		double tStep = mEndTime - mStartTime;
+		double deltaT = time - mStartTime;
+		double x = deltaT / tStep;
 		double p = (e.pressure - s.pressure)*x + s.pressure;
 		double t = (e.temp - s.temp)*x + s.temp;
 		double dp = (e.dewPoint - s.dewPoint)*x + s.dewPoint;

@@ -57,7 +57,6 @@ public class AtmosphereProfile {
 		Iterator<AtmosphereState> itr = data.iterator();
 		AtmosphereState cur = itr.next();
 		roc.clear();
-		//TODO test interpolation
 		while(itr.hasNext()) {	// iterate over steps
 			AtmosphereState next = itr.next();
 			// compute rates of change with altitude
@@ -67,7 +66,6 @@ public class AtmosphereProfile {
 			double dd = (next.dewPoint - cur.dewPoint)/dh;
 			double ds = (next.windSpeed - cur.windSpeed)/dh;
 			double ddir = next.windDir - cur.windDir;
-			//TODO test wind direction interpolation
 			if(Math.abs(ddir) > 180) {	// wind is tricky because of degree wrapping
 				if(ddir > 0) {
 					ddir = ddir - 360;
@@ -103,7 +101,7 @@ public class AtmosphereProfile {
 			}
 		}
 		// compute interpolated values
-		AtmosphereState slope = data.get(i);
+		AtmosphereState slope = roc.get(i);
 		double dh = altitude-base.altitude;
 		double p = slope.pressure*dh + base.pressure;
 		double t = slope.temp*dh + base.temp;

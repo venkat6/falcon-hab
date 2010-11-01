@@ -60,7 +60,7 @@ public class Spacecraft {
 	 * @param lon Starting longitude
 	 * @param alt Starting altitude
 	 */
-	public void launch(int time, double lat, double lon, double alt) {
+	public void launch(double time, double lat, double lon, double alt) {
 		// Set initial conditions
 		mStartingPosition = new Position(lat, lon, alt);
 		position = mStartingPosition;
@@ -70,12 +70,12 @@ public class Spacecraft {
 		vZ = 0;
 		currentTime = time;
 		// Compute gas properties
-		atmo = AtmosphereFactory.getGfsModel(time, lat, lon);
-		AtmosphereState ambient = atmo.getAtAltitude(alt, time);
-		double rho_gas = (mLiftingGas * ambient.pressure) / (R * ambient.temp);
-		double rho = (AIR * ambient.pressure) / (R * ambient.temp);
+		atmo = AtmosphereFactory.getGfsModel((int)time, lat, lon);
+		AtmosphereState ambient = atmo.getAtAltitude(alt, (int)time);
+		double rho_gas = (mLiftingGas * ambient.pressure * 100) / (R * (273.15 + ambient.temp));
+		double rho = (AIR * ambient.pressure * 100) / (R * (273.15 + ambient.temp));
 		double totalLift = netLift + (currentMass * g);
-		gasVolume = totalLift / ((rho_gas - rho) * g);
+		gasVolume = totalLift / ((rho - rho_gas) * g);
 		gasMass = gasVolume * rho_gas;
 		currentMass = mPayloadMass + mBalloonMass + ballastRemaining + gasMass;
 	}
@@ -94,7 +94,7 @@ public class Spacecraft {
 		vZ = aX * timeStep;											// Update velocity
 		// Horizontal Plane
 		// Horizontal velocities are assumed to be equal to velocity of the wind
-		double angle = Math.toRadians(ambient.windDir + 180);		// Trig functions expect radians
+		double angle = Math.toRadians(ambient.windDir);				// Trig functions expect radians
 		double vX = ambient.windSpeed * Math.sin(angle);			// Calculate East/West velocity
 		double vY = ambient.windSpeed * Math.cos(angle);			// Calculate North/South velocity
 		double dX = vX * timeStep;									// Calculate East/West displacement
@@ -114,10 +114,12 @@ public class Spacecraft {
 		position.setLongitude(position.getLongitude() + dlon);		// Update longitude of payload
 		// Update the gas properties
 		ambient = atmo.getAtAltitude(altitude, (int)currentTime);	// Update ambient conditions
-		gasVolume = ((gasMass / mLiftingGas) * R * ambient.temp) / ambient.pressure; // Determine gas volume
+		double rho_gas = (mLiftingGas * ambient.pressure * 100) / (R * (273.15 + ambient.temp));
+		//gasVolume = ((gasMass / mLiftingGas) * R * (273.15 + ambient.temp)) / (ambient.pressure * 100); // Determine gas volume
+		gasVolume = gasMass * (1.0 / rho_gas);
 		gasVolume = Math.min(gasVolume, mBalloonVolume);			// Vent excess gas volume
-		gasMass = (ambient.pressure * gasVolume * mLiftingGas) / (R * ambient.temp); // Determine gas mass
-		double rho = (AIR * ambient.pressure) / (R * ambient.temp);	// Determine density of ambient air
+		gasMass = (ambient.pressure * 100 * gasVolume * mLiftingGas) / (R * (273.15 + ambient.temp)); // Determine gas mass
+		double rho = (AIR * ambient.pressure * 100) / (R * (273.15 + ambient.temp));	// Determine density of ambient air
 		double B = rho * gasVolume * g;								// Determine buoyant force
 		currentMass = mPayloadMass + mBalloonMass + ballastRemaining + gasMass; // Update mass of system
 		netLift = B - currentMass;									// Update net lift
@@ -141,6 +143,9 @@ public class Spacecraft {
 		properties[3] = position.getAltitude();
 		properties[4] = currentMass;
 		properties[5] = netLift;
+		properties[6] = gasMass;
+		properties[7] = gasVolume;
+		properties[8] = vZ;
 		// More properties here...
 		return properties;
 	}
