@@ -72,8 +72,8 @@ public class FlightPrediction {
 			e.printStackTrace();
 		}
 		write(s, payload.getProperties());
-		for(int i = 0; i < 2000; i++) {
-			payload.simulate(1.0);
+		for(int i = 0; i < 1000; i++) {
+			payload.simulate(10.0);
 			write(s, payload.getProperties());
 		}
 		System.out.println("Done");
