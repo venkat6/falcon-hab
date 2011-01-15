@@ -3,5 +3,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.14/mysql-connector-java-5.1.14-bin.jar"/>
+	<classpathentry kind="lib" path="lib/swingx-ws-2011_01_09-bin/swingx-ws-2011_01_09.jar"/>
+	<classpathentry kind="lib" path="lib/swingx-ws-2011_01_09-bin/lib/cobundle/swingx-1.6.jar"/>
+	<classpathentry kind="lib" path="lib/swingx-ws-2011_01_09-bin/lib/cobundle/swingx-beaninfo-1.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
