@@ -1,10 +1,9 @@
-package database;
+package connectors;
 
 import java.sql.*;
-
 import backend.Settings;
 
-public class DatabaseConnection {
+public class MySQL {
 	
 	private Connection con;
 	private String add;
@@ -13,7 +12,7 @@ public class DatabaseConnection {
 	private String pass;
 	private String name;
 	
-	public DatabaseConnection() {
+	public MySQL() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
@@ -22,7 +21,7 @@ public class DatabaseConnection {
 		}
 	}
 	
-	public DatabaseConnection(String address, int port, String username, String password, String database) {
+	public MySQL(String address, int port, String username, String password, String database) {
 		this();
 		setParameters(address, port, username, password, database);
 	}

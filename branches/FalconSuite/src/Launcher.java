@@ -1,14 +1,12 @@
 import backend.*;
-import database.*;
-
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import connectors.MySQL;
 
 public class Launcher {
 	
@@ -59,7 +57,7 @@ public class Launcher {
 		database.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				new database.DatabaseManager();
+				new DatabaseManager();
 			}
 		});
 		frame.getContentPane().add(database);
@@ -70,7 +68,7 @@ public class Launcher {
 	
 	public static void init() {
 		Settings.loadSettings();	// Load settings
-		Settings.db = new DatabaseConnection(
+		Settings.db = new MySQL(
 				Settings.getProperty("DB_ADD"),
 				Integer.parseInt(Settings.getProperty("DB_PORT")),
 				Settings.getProperty("DB_USER"),

@@ -6,7 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
-import database.DatabaseConnection;
+
+import connectors.MySQL;
 
 
 public class Settings {
@@ -14,7 +15,7 @@ public class Settings {
 	public static boolean DEBUG = true;
 	private static Properties settings = new Properties();
 	
-	public static DatabaseConnection db;
+	public static MySQL db;
 	
 	public static void loadSettings() {
 		try {
