@@ -6,17 +6,23 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
-
 import connectors.MySQL;
 
-
+/**
+ * Manages global settings of FALCON Suite
+ * 
+ * @author Ethan Harstad
+ */
 public class Settings {
 	
-	public static boolean DEBUG = true;
-	private static Properties settings = new Properties();
+	public static boolean DEBUG = true;	// Debug state flag, controls special output and functions
+	private static Properties settings = new Properties(); // Holds all the settings of the program
 	
-	public static MySQL db;
+	public static MySQL db; // Global MySQL database connection
 	
+	/**
+	 * Load settings from the state file
+	 */
 	public static void loadSettings() {
 		try {
 			FileInputStream file = new FileInputStream("state.ini");
@@ -36,6 +42,9 @@ public class Settings {
 		}
 	}
 	
+	/**
+	 * Write all settings to the state file
+	 */
 	public static void saveSettings() {
 		try {
 			FileOutputStream file = new FileOutputStream("state.ini");
@@ -51,10 +60,20 @@ public class Settings {
 		}
 	}
 	
+	/**
+	 * Store a new setting
+	 * @param key Name of the setting
+	 * @param value Value of the setting
+	 */
 	public static void setProperty(String key, String value) {
 		settings.setProperty(key, value);
 	}
 	
+	/**
+	 * Get a setting value
+	 * @param key The name of the setting
+	 * @return Value of the setting
+	 */
 	public static String getProperty(String key) {
 		return settings.getProperty(key);
 	}

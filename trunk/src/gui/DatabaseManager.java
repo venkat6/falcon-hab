@@ -1,4 +1,5 @@
 package gui;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -8,7 +9,6 @@ import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,12 +22,16 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpringLayout;
-
 import backend.Settings;
 
+/**
+ * Window used to manage all database functions
+ * 
+ * @author Ethan Harstad
+ */
 public class DatabaseManager extends JFrame {
 	
-	private boolean changed = false;
+	private boolean changed = false; // Tracks if the program needs to be restarted
 	
 	private JTextField address;
 	private JTextField port;
@@ -116,8 +120,13 @@ public class DatabaseManager extends JFrame {
 		setVisible(true);
 	}
 	
+	/**
+	 * Test if the database is setup correctly for use by FALCON
+	 * @return True if the database is ready for use
+	 */
 	public static boolean testDatabase() {
 		//FIXME bad connections verify correctly
+		//FIXME add validity tag to database connection
 		ResultSet rs = Settings.db.query("show tables");
 		try {
 			while(rs.next()) {
@@ -130,6 +139,9 @@ public class DatabaseManager extends JFrame {
 		return false;
 	}
 	
+	/**
+	 * Format the database for use by FALCON
+	 */
 	private void formatDatabase() {
 		Settings.db.execute(
 			"CREATE TABLE missions(" +
@@ -149,6 +161,9 @@ public class DatabaseManager extends JFrame {
 		displayDatabase();
 	}
 	
+	/**
+	 * Display the database in the GUI
+	 */
 	private void displayDatabase() {
 		//TODO improve table display: auto col width, etc
 		root.remove(viewPanel);
@@ -335,6 +350,19 @@ public class DatabaseManager extends JFrame {
 		pack();
 	}
 	
+	/**
+	 * Add a mission to the database
+	 * @param mission
+	 * @param mmgr
+	 * @param fd
+	 * @param ed
+	 * @param rd
+	 * @param time
+	 * @param lift
+	 * @param mass
+	 * @param balloon
+	 * @param status
+	 */
 	private void addMission(String mission, String mmgr, String fd, String ed, String rd, String time,
 			double lift, double mass, String balloon, String status) {
 		//TODO add new table for flight
