@@ -9,7 +9,7 @@ import backend.Settings;	// Only used for DEBUG flag, can be removed
  * @author Ethan Harstad
  *
  */
-public class MySQL {
+public class MySQL implements Database {
 	
 	private Connection con;	// Holds the connection object
 	private String add;		// Holds the address of the server
