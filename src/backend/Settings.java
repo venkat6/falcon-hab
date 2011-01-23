@@ -6,7 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
-import connectors.MySQL;
+
+import connectors.database.MySQL;
 
 /**
  * Manages global settings of FALCON Suite
@@ -15,7 +16,8 @@ import connectors.MySQL;
  */
 public class Settings {
 	
-	public static boolean DEBUG = true;	// Debug state flag, controls special output and functions
+	public static boolean DEBUG = false;	// Debug state flag, controls special output and functions
+	public static boolean LOCAL = false;	// Database state flag
 	private static Properties settings = new Properties(); // Holds all the settings of the program
 	
 	public static MySQL db; // Global MySQL database connection

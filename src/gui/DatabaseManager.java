@@ -4,15 +4,15 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,6 +22,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpringLayout;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
+
 import backend.Settings;
 
 /**
@@ -29,7 +32,7 @@ import backend.Settings;
  * 
  * @author Ethan Harstad
  */
-public class DatabaseManager extends JFrame {
+public class DatabaseManager extends JInternalFrame {
 	
 	private boolean changed = false; // Tracks if the program needs to be restarted
 	
@@ -42,10 +45,18 @@ public class DatabaseManager extends JFrame {
 	private JPanel viewPanel;
 	
 	public DatabaseManager() {
-		super("FALCON Suite - Database Manager");
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
+		super("FALCON Suite - Database Manager", false, true);
+		setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
+		addInternalFrameListener(new InternalFrameListener() {
+			@Override
+			public void internalFrameActivated(InternalFrameEvent arg0) {}
+			@Override
+			public void internalFrameClosed(InternalFrameEvent arg0) {}
+			@Override
+			public void internalFrameClosing(InternalFrameEvent arg0) {
+				java.awt.Rectangle bounds = getBounds();
+				Settings.setProperty("DBMGR_X", Integer.toString(bounds.x));
+				Settings.setProperty("DBMGR_Y", Integer.toString(bounds.y));
 				if(changed) {
 					Settings.saveSettings();
 					System.exit(0);
@@ -53,6 +64,14 @@ public class DatabaseManager extends JFrame {
 				setVisible(false);
 				dispose();
 			}
+			@Override
+			public void internalFrameDeactivated(InternalFrameEvent arg0) {}
+			@Override
+			public void internalFrameDeiconified(InternalFrameEvent arg0) {}
+			@Override
+			public void internalFrameIconified(InternalFrameEvent arg0) {}
+			@Override
+			public void internalFrameOpened(InternalFrameEvent arg0) {}
 		});
 		root = new JPanel();
 		getContentPane().add(root);
@@ -105,10 +124,7 @@ public class DatabaseManager extends JFrame {
 			}
 		});
 		connectionPanel.add(apply);
-		utils.SpringUtilities.makeCompactGrid(connectionPanel,
-										6, 2,
-										6, 6,
-										6, 6);	
+		utils.SpringUtilities.makeCompactGrid(connectionPanel, 6, 2, 6, 6, 6, 6);	
 		root.add(connectionPanel);
 		
 		viewPanel = new JPanel();
@@ -117,6 +133,15 @@ public class DatabaseManager extends JFrame {
 		displayDatabase();
 		
 		pack();
+		int x = 0;
+		int y = 0;
+		try {
+			String sx = Settings.getProperty("DBMGR_X");
+			String sy = Settings.getProperty("DBMGR_Y");
+			x = sx == null ? 0 : Integer.parseInt(sx);
+			y = sy == null ? 0 : Integer.parseInt(sy);
+		} catch(NumberFormatException e) {}
+		setLocation(x, y);
 		setVisible(true);
 	}
 	
@@ -275,10 +300,7 @@ public class DatabaseManager extends JFrame {
 					lbl.setLabelFor(status);
 					panel.add(lbl);
 					panel.add(status);
-					utils.SpringUtilities.makeCompactGrid(panel,
-							5, 4,
-							5, 5,
-							5, 5);
+					utils.SpringUtilities.makeCompactGrid(panel, 5, 4, 5, 5, 5, 5);
 					root.add(panel);
 					JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 					JButton add = new JButton("Add");

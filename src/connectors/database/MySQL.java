@@ -1,6 +1,8 @@
-package connectors;
+package connectors.database;
+//TODO Refactor to match Database interface
 
 import java.sql.*;			// Sun SQL classes
+
 import backend.Settings;	// Only used for DEBUG flag, can be removed
 
 /**
@@ -153,6 +155,18 @@ public class MySQL implements Database {
 			if(Settings.DEBUG) e.printStackTrace();
 		}
 		return rs;
+	}
+
+	@Override
+	public boolean insert() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ResultSet select() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
