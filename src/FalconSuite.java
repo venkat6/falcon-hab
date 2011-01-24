@@ -7,10 +7,14 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+
+import net.infonode.docking.*;
+import net.infonode.docking.util.*;
 
 import backend.Settings;
 import connectors.database.MySQL;
@@ -18,6 +22,7 @@ import connectors.database.MySQL;
 public class FalconSuite extends JFrame {
 	
 	private static JDesktopPane desktop;
+	private static RootWindow rootWindow;
 	
 	public FalconSuite() {
 		super("FALCON Suite");
@@ -71,6 +76,12 @@ public class FalconSuite extends JFrame {
 		
 		desktop = new JDesktopPane();
 		setContentPane(desktop);
+		
+		ViewMap viewMap = new ViewMap();
+		View demoView = new View("View", null, new JLabel("Hello world"));
+		viewMap.addView(1, demoView);
+		rootWindow = DockingUtil.createRootWindow(viewMap, true);
+		desktop.add(rootWindow);
 		
 		pack();
 		setVisible(true);

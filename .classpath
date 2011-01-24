@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="lib/swingx-ws-2011_01_09-bin/swingx-ws-2011_01_09.jar"/>
 	<classpathentry kind="lib" path="lib/swingx-ws-2011_01_09-bin/lib/cobundle/swingx-1.6.jar"/>
 	<classpathentry kind="lib" path="lib/swingx-ws-2011_01_09-bin/lib/cobundle/swingx-beaninfo-1.6.jar"/>
+	<classpathentry kind="lib" path="lib/idw-gpl-1.6.1/lib/idw-gpl.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
