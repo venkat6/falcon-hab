@@ -1,30 +1,33 @@
 import gui.DatabaseManager;
+import gui.LogWindow;
+import gui.PredictionManager;
+import gui.elements.StatusBar;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-import net.infonode.docking.*;
-import net.infonode.docking.util.*;
-
+import net.infonode.docking.RootWindow;
+import net.infonode.docking.util.DockingUtil;
+import net.infonode.docking.util.ViewMap;
+import net.infonode.util.Direction;
 import backend.Settings;
 import connectors.database.MySQL;
 
 public class FalconSuite extends JFrame {
 	
-	private static JDesktopPane desktop;
 	private static RootWindow rootWindow;
+	private static LogWindow logWindow;
 	
-	public FalconSuite() {
+	public FalconSuite(String[] args) {
 		super("FALCON Suite");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
@@ -33,6 +36,29 @@ public class FalconSuite extends JFrame {
 				System.exit(0);
 			}
 		});
+
+		// Handle command line arguments
+		for(int i = 0; i < args.length; i++) {
+			String arg = args[i];
+			if(arg.equals("-debug")) {
+				Settings.DEBUG = true;
+				System.out.println("DEBUG Mode Enabled.");
+			}
+			if(arg.equals("-local")) {
+				Settings.LOCAL = true;
+				System.out.println("LOCAL Mode Enabled.");
+			}
+		}
+		
+		rootWindow = DockingUtil.createRootWindow(new ViewMap(), true);
+		setContentPane(rootWindow);
+		StatusBar statusBar = new StatusBar();
+		rootWindow.add(statusBar, BorderLayout.SOUTH);
+		logWindow = new LogWindow();
+		DockingUtil.addWindow(logWindow, rootWindow);
+		rootWindow.getWindowBar(Direction.DOWN).setEnabled(true);
+		rootWindow.getWindowBar(Direction.LEFT).setEnabled(true);
+		rootWindow.getWindowBar(Direction.RIGHT).setEnabled(true);
 		
 		JMenuBar menuBar = new JMenuBar();
 		JMenu launchMenu = new JMenu("Launch");
@@ -49,8 +75,7 @@ public class FalconSuite extends JFrame {
 		prediction.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO Flight prediction
-				JOptionPane.showMessageDialog(null, "Not implemented yet!");
+				DockingUtil.addWindow(new PredictionManager(), rootWindow);
 			}
 		});
 		tracking.addActionListener(new ActionListener() {
@@ -70,18 +95,10 @@ public class FalconSuite extends JFrame {
 		database.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				desktop.add(new DatabaseManager());
+				new DatabaseManager();
 			}
 		});
-		
-		desktop = new JDesktopPane();
-		setContentPane(desktop);
-		
-		ViewMap viewMap = new ViewMap();
-		View demoView = new View("View", null, new JLabel("Hello world"));
-		viewMap.addView(1, demoView);
-		rootWindow = DockingUtil.createRootWindow(viewMap, true);
-		desktop.add(rootWindow);
+
 		
 		pack();
 		setVisible(true);
@@ -89,19 +106,7 @@ public class FalconSuite extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		new FalconSuite();
-		// Handle command line arguments
-		for(int i = 0; i < args.length; i++) {
-			String arg = args[i];
-			if(arg.equals("-debug")) {
-				Settings.DEBUG = true;
-				System.out.println("DEBUG Mode Enabled.");
-			}
-			if(arg.equals("-local")) {
-				Settings.LOCAL = true;
-				System.out.println("LOCAL Mode Enabled.");
-			}
-		}
+		new FalconSuite(args);
 		
 		init();
 	}
