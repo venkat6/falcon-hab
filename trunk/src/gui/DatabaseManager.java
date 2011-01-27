@@ -2,8 +2,11 @@ package gui;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
@@ -22,9 +25,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpringLayout;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.event.InternalFrameListener;
-
 import backend.Settings;
 
 /**
@@ -32,7 +32,7 @@ import backend.Settings;
  * 
  * @author Ethan Harstad
  */
-public class DatabaseManager extends JInternalFrame {
+public class DatabaseManager extends JFrame {
 	
 	private boolean changed = false; // Tracks if the program needs to be restarted
 	
@@ -45,34 +45,22 @@ public class DatabaseManager extends JInternalFrame {
 	private JPanel viewPanel;
 	
 	public DatabaseManager() {
-		super("FALCON Suite - Database Manager", false, true);
+		super("FALCON Suite - Database Manager");
 		setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
-		addInternalFrameListener(new InternalFrameListener() {
-			@Override
-			public void internalFrameActivated(InternalFrameEvent arg0) {}
-			@Override
-			public void internalFrameClosed(InternalFrameEvent arg0) {}
-			@Override
-			public void internalFrameClosing(InternalFrameEvent arg0) {
-				java.awt.Rectangle bounds = getBounds();
-				Settings.setProperty("DBMGR_X", Integer.toString(bounds.x));
-				Settings.setProperty("DBMGR_Y", Integer.toString(bounds.y));
-				if(changed) {
-					Settings.saveSettings();
-					System.exit(0);
-				}
-				setVisible(false);
-				dispose();
-			}
-			@Override
-			public void internalFrameDeactivated(InternalFrameEvent arg0) {}
-			@Override
-			public void internalFrameDeiconified(InternalFrameEvent arg0) {}
-			@Override
-			public void internalFrameIconified(InternalFrameEvent arg0) {}
-			@Override
-			public void internalFrameOpened(InternalFrameEvent arg0) {}
+		addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+            		Rectangle bounds = getBounds();
+            		Settings.setProperty("DBMGR_X", Integer.toString(bounds.x));
+            		Settings.setProperty("DBMGR_Y", Integer.toString(bounds.y));
+                    if(changed) {
+                            Settings.saveSettings();
+                            System.exit(0);
+                    }
+                    setVisible(false);
+                    dispose();
+            }
 		});
+
 		root = new JPanel();
 		getContentPane().add(root);
 		root.setLayout(new BoxLayout(root, BoxLayout.Y_AXIS));
