@@ -18,6 +18,11 @@ public class Settings {
 	
 	public static boolean DEBUG = false;	// Debug state flag, controls special output and functions
 	public static boolean LOCAL = false;	// Database state flag
+	
+	public static boolean MySQL = false;
+	public static boolean AGWPE = false;
+	public static boolean APRSIS = false;
+	
 	private static Properties settings = new Properties(); // Holds all the settings of the program
 	
 	public static MySQL db; // Global MySQL database connection

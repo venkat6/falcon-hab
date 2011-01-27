@@ -78,12 +78,12 @@ public class LogWindow extends View {
                             console.setCaretPosition(console.getDocument().getLength());
 
                             // Keep the text area down to a certain character size
-                            /*int idealSize = 1000;
+                            int idealSize = 1000;
                             int maxExcess = 500;
                             int excess = console.getDocument().getLength() - idealSize;
                             if (excess >= maxExcess) {
                                 console.replaceRange("", 0, excess);
-                            }*/
+                            }
                         }
                     });
                 }
