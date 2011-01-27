@@ -1,6 +1,8 @@
+import gui.AlertWindow;
 import gui.DatabaseManager;
 import gui.LogWindow;
 import gui.PredictionManager;
+import gui.TrackingManager;
 import gui.elements.StatusBar;
 
 import java.awt.BorderLayout;
@@ -26,6 +28,7 @@ public class FalconSuite extends JFrame {
 	
 	private static RootWindow rootWindow;
 	private static LogWindow logWindow;
+	private static AlertWindow alertWindow;
 	
 	public FalconSuite(String[] args) {
 		super("FALCON Suite");
@@ -81,8 +84,11 @@ public class FalconSuite extends JFrame {
 		tracking.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO Flight tracking
-				JOptionPane.showMessageDialog(null, "Not implemented yet!");
+				DockingUtil.addWindow(new TrackingManager(), rootWindow);
+				if(alertWindow == null) {
+					alertWindow = new AlertWindow();
+					DockingUtil.addWindow(alertWindow, rootWindow);
+				}
 			}
 		});
 		archive.addActionListener(new ActionListener() {
